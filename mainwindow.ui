@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>989</width>
+    <height>561</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>989</width>
+    <height>561</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>989</width>
+    <height>561</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>VP_COURSEWORK</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>989</width>
+     <height>562</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>989</width>
+     <height>561</height>
+    </size>
+   </property>
+   <widget class="QFrame" name="inputFrame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>480</width>
+      <height>408</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QFrame" name="outputFrame">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>50</y>
+      <width>480</width>
+      <height>408</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>971</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QCheckBox" name="checkBox_ip">
+       <property name="text">
+        <string>Popout</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="checkBox_op">
+         <property name="text">
+          <string>Popout</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Take Left Image</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="playButton">
+           <property name="text">
+            <string>Play</string>
+           </property>
+           <property name="icon">
+            <iconset resource="window_QT.qrc">
+             <normaloff>:/Play</normaloff>
+             <normalon>:/Pause</normalon>:/Play</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="PauseButton">
+           <property name="text">
+            <string>Pause</string>
+           </property>
+           <property name="icon">
+            <iconset resource="window_QT.qrc">
+             <normaloff>:/Pause</normaloff>
+             <normalon>:/Play</normalon>:/Pause</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="stopButton">
+           <property name="text">
+            <string>Stop</string>
+           </property>
+           <property name="icon">
+            <iconset resource="window_QT.qrc">
+             <normaloff>:/Stop</normaloff>:/Stop</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>0</y>
+      <width>388</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QCheckBox" name="checkBox">
+       <property name="text">
+        <string>Process Contiously</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="text">
+        <string>Supress Intermediate Windows</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_3">
+       <property name="text">
+        <string>Show Options</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>460</y>
+      <width>371</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QDoubleSpinBox" name="m11">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>0</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m12">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>0</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m13">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>0</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m21">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>20</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m22">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>20</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m23">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>20</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m31">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>40</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m32">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>40</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="m33">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>40</y>
+       <width>62</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>-999999999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>999999999.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labeltext">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Fundamental Matrix   = </string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>989</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFlip">
+    <property name="title">
+     <string>Flip</string>
+    </property>
+    <addaction name="actionVertical"/>
+    <addaction name="actionHorizontal"/>
+    <addaction name="actionBoth"/>
+   </widget>
+   <widget class="QMenu" name="menuInvert">
+    <property name="title">
+     <string>Others</string>
+    </property>
+    <widget class="QMenu" name="menuInvert_2">
+     <property name="title">
+      <string>Invert</string>
+     </property>
+     <addaction name="actionColor"/>
+     <addaction name="actionGray_2"/>
+    </widget>
+    <addaction name="menuInvert_2"/>
+    <addaction name="actionAdd_Salt_and_Pepper_Noise"/>
+    <addaction name="actionResize"/>
+    <addaction name="actionNormalise"/>
+    <addaction name="actionThreshold"/>
+   </widget>
+   <widget class="QMenu" name="menuHistogram">
+    <property name="title">
+     <string>Histogram</string>
+    </property>
+    <widget class="QMenu" name="menuCompute">
+     <property name="title">
+      <string>Compute</string>
+     </property>
+     <addaction name="actionGray"/>
+     <addaction name="actionRed"/>
+     <addaction name="actionGreen"/>
+     <addaction name="actionBlue"/>
+     <addaction name="actionALL"/>
+    </widget>
+    <addaction name="menuCompute"/>
+    <addaction name="actionEqualise"/>
+   </widget>
+   <widget class="QMenu" name="menuColor_Space_Conversion">
+    <property name="title">
+     <string>Color Space Conversion</string>
+    </property>
+    <addaction name="actionRGB_to_Gray"/>
+    <addaction name="actionRGB_to_HSV"/>
+    <addaction name="actionRGB_to_HLS"/>
+    <addaction name="actionRGB_to_YCrCb"/>
+    <addaction name="actionRGB_to_XYZ"/>
+    <addaction name="actionRGB_to_CIE_L_a_b"/>
+    <addaction name="actionRGB_to_CIE_L_u_v8"/>
+   </widget>
+   <widget class="QMenu" name="menuInsert_Logo">
+    <property name="title">
+     <string>Insert Logo</string>
+    </property>
+    <addaction name="actionTop_Left"/>
+    <addaction name="actionTop_Right"/>
+    <addaction name="actionButton_Left"/>
+    <addaction name="actionButtom_Right"/>
+    <addaction name="separator"/>
+    <addaction name="actionGet_Logo"/>
+   </widget>
+   <widget class="QMenu" name="menuOpen">
+    <property name="title">
+     <string>Main</string>
+    </property>
+    <addaction name="actionImage"/>
+    <addaction name="actionVideo"/>
+    <addaction name="actionWebcam"/>
+    <addaction name="separator"/>
+    <addaction name="actionSaveImage"/>
+    <addaction name="actionSaveVideo"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
+   </widget>
+   <widget class="QMenu" name="menuMorphology">
+    <property name="title">
+     <string>Morphology</string>
+    </property>
+    <addaction name="actionDilate"/>
+    <addaction name="actionErode"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionClose"/>
+    <addaction name="actionMorphology_Gradient"/>
+    <addaction name="actionTop_Hat"/>
+    <addaction name="actionBlack_Hat"/>
+   </widget>
+   <widget class="QMenu" name="menuFilters">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <widget class="QMenu" name="menuEdge">
+     <property name="title">
+      <string>Edge</string>
+     </property>
+     <addaction name="actionSobel"/>
+     <addaction name="actionLaplacian"/>
+     <addaction name="actionCanny"/>
+    </widget>
+    <addaction name="actionBlur"/>
+    <addaction name="actionSharpen"/>
+    <addaction name="menuEdge"/>
+    <addaction name="actionMedian"/>
+    <addaction name="actionBilateral"/>
+    <addaction name="actionGaussian"/>
+    <addaction name="actionCustom_Filter"/>
+   </widget>
+   <widget class="QMenu" name="menuExtract_Features">
+    <property name="title">
+     <string>Features</string>
+    </property>
+    <widget class="QMenu" name="menuHough_Transform">
+     <property name="title">
+      <string>Hough Transform</string>
+     </property>
+     <addaction name="actionLine"/>
+     <addaction name="actionCircle"/>
+    </widget>
+    <widget class="QMenu" name="menuCorners">
+     <property name="title">
+      <string>Corners</string>
+     </property>
+     <addaction name="actionHarris"/>
+    </widget>
+    <widget class="QMenu" name="menuFAST">
+     <property name="title">
+      <string>FAST</string>
+     </property>
+     <addaction name="actionExtract"/>
+     <addaction name="actionMatch"/>
+    </widget>
+    <widget class="QMenu" name="menuSIFT">
+     <property name="title">
+      <string>SIFT</string>
+     </property>
+     <addaction name="actionExtract_2"/>
+     <addaction name="actionMatch_2"/>
+    </widget>
+    <widget class="QMenu" name="menuSURF">
+     <property name="title">
+      <string>SURF</string>
+     </property>
+     <addaction name="actionExtract_3"/>
+     <addaction name="actionMatch_3"/>
+    </widget>
+    <widget class="QMenu" name="menuShape_Descriptors">
+     <property name="title">
+      <string>Shape Descriptors</string>
+     </property>
+     <addaction name="actionConvex_Hull"/>
+     <addaction name="actionBounding_Box"/>
+     <addaction name="actionRotated_Rectangle"/>
+     <addaction name="actionMin_Enclosing_Circle"/>
+     <addaction name="actionMin_Enclosing_Ellipse"/>
+     <addaction name="actionMoments"/>
+    </widget>
+    <addaction name="menuHough_Transform"/>
+    <addaction name="actionContours"/>
+    <addaction name="menuShape_Descriptors"/>
+    <addaction name="menuCorners"/>
+    <addaction name="menuFAST"/>
+    <addaction name="menuSURF"/>
+    <addaction name="menuSIFT"/>
+    <addaction name="separator"/>
+    <addaction name="actionGet_second_Image_for_Matching"/>
+   </widget>
+   <widget class="QMenu" name="menuCamera">
+    <property name="title">
+     <string>Compute</string>
+    </property>
+    <widget class="QMenu" name="menuFundamental_Matrix">
+     <property name="title">
+      <string>Fundamental Matrix</string>
+     </property>
+     <addaction name="action7_point_method"/>
+     <addaction name="action_8"/>
+     <addaction name="actionRANSAC"/>
+    </widget>
+    <addaction name="menuFundamental_Matrix"/>
+    <addaction name="actionHomography"/>
+    <addaction name="separator"/>
+    <addaction name="actionGet_Second_Image"/>
+    <addaction name="actionGet_Images_from_WebCam"/>
+   </widget>
+   <widget class="QMenu" name="menuCalibrate">
+    <property name="title">
+     <string>Calibration</string>
+    </property>
+    <addaction name="actionCalibrate"/>
+    <addaction name="actionUndistort_Image"/>
+    <addaction name="separator"/>
+    <addaction name="actionGet_Images_for_Calibration_from_Webcam"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <widget class="QMenu" name="menuUser_Manual">
+     <property name="title">
+      <string>User Manual</string>
+     </property>
+     <addaction name="actionHtml"/>
+     <addaction name="actionPdf"/>
+    </widget>
+    <addaction name="menuUser_Manual"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuOpen"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuFlip"/>
+   <addaction name="menuHistogram"/>
+   <addaction name="menuColor_Space_Conversion"/>
+   <addaction name="menuInsert_Logo"/>
+   <addaction name="menuMorphology"/>
+   <addaction name="menuFilters"/>
+   <addaction name="menuExtract_Features"/>
+   <addaction name="menuCamera"/>
+   <addaction name="menuCalibrate"/>
+   <addaction name="menuInvert"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionVertical">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Vertical</string>
+   </property>
+  </action>
+  <action name="actionHorizontal">
+   <property name="text">
+    <string>Horizontal</string>
+   </property>
+  </action>
+  <action name="actionBoth">
+   <property name="text">
+    <string>Both</string>
+   </property>
+  </action>
+  <action name="actionEqualise">
+   <property name="text">
+    <string>Equalise</string>
+   </property>
+  </action>
+  <action name="actionAdd_Salt_and_Pepper_Noise">
+   <property name="text">
+    <string>Add Salt and Pepper Noise</string>
+   </property>
+  </action>
+  <action name="actionRed">
+   <property name="text">
+    <string>Red</string>
+   </property>
+  </action>
+  <action name="actionGreen">
+   <property name="text">
+    <string>Green</string>
+   </property>
+  </action>
+  <action name="actionBlue">
+   <property name="text">
+    <string>Blue</string>
+   </property>
+  </action>
+  <action name="actionGray">
+   <property name="text">
+    <string>Gray</string>
+   </property>
+  </action>
+  <action name="actionTop_Left">
+   <property name="text">
+    <string>Top Left</string>
+   </property>
+  </action>
+  <action name="actionTop_Right">
+   <property name="text">
+    <string>Top Right</string>
+   </property>
+  </action>
+  <action name="actionButton_Left">
+   <property name="text">
+    <string>Buttom Left</string>
+   </property>
+  </action>
+  <action name="actionButtom_Right">
+   <property name="text">
+    <string>Buttom Right</string>
+   </property>
+  </action>
+  <action name="actionColor">
+   <property name="text">
+    <string>Color</string>
+   </property>
+  </action>
+  <action name="actionGray_2">
+   <property name="text">
+    <string>Gray</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_Gray">
+   <property name="text">
+    <string>RGB to Gray</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_HSV">
+   <property name="text">
+    <string>RGB to HSV</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_HLS">
+   <property name="text">
+    <string>RGB to HLS</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_YCrCb">
+   <property name="text">
+    <string>RGB to YCrCb</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_XYZ">
+   <property name="text">
+    <string>RGB to CIE XYZ</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_CIE_L_a_b">
+   <property name="text">
+    <string>RGB to CIE L*a*b*</string>
+   </property>
+  </action>
+  <action name="actionRGB_to_CIE_L_u_v8">
+   <property name="text">
+    <string>RGB to CIE L*u*v8</string>
+   </property>
+  </action>
+  <action name="actionImage">
+   <property name="text">
+    <string>Open Image</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionVideo">
+   <property name="text">
+    <string>Open Video</string>
+   </property>
+  </action>
+  <action name="actionWebcam">
+   <property name="text">
+    <string>Connect to Webcam</string>
+   </property>
+  </action>
+  <action name="actionSaveImage">
+   <property name="text">
+    <string>Save Image</string>
+   </property>
+  </action>
+  <action name="actionSaveVideo">
+   <property name="text">
+    <string>Save Video</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionGet_Logo">
+   <property name="text">
+    <string>Get Logo</string>
+   </property>
+  </action>
+  <action name="actionALL">
+   <property name="text">
+    <string>All</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionDilate">
+   <property name="text">
+    <string>Dilate</string>
+   </property>
+  </action>
+  <action name="actionErode">
+   <property name="text">
+    <string>Erode</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="actionBlur">
+   <property name="text">
+    <string>Blur</string>
+   </property>
+  </action>
+  <action name="actionSobel">
+   <property name="text">
+    <string>Sobel</string>
+   </property>
+  </action>
+  <action name="actionLaplacian">
+   <property name="text">
+    <string>Laplacian</string>
+   </property>
+  </action>
+  <action name="actionCanny">
+   <property name="text">
+    <string>Canny</string>
+   </property>
+  </action>
+  <action name="actionSharpen">
+   <property name="text">
+    <string>Sharpen</string>
+   </property>
+  </action>
+  <action name="actionResize">
+   <property name="text">
+    <string>Resize </string>
+   </property>
+  </action>
+  <action name="actionLine">
+   <property name="text">
+    <string>Line</string>
+   </property>
+  </action>
+  <action name="actionCircle">
+   <property name="text">
+    <string>Circle</string>
+   </property>
+  </action>
+  <action name="actionContours">
+   <property name="text">
+    <string>Contours</string>
+   </property>
+  </action>
+  <action name="actionHarris">
+   <property name="text">
+    <string>Harris</string>
+   </property>
+  </action>
+  <action name="actionCalibration">
+   <property name="text">
+    <string>Calibration</string>
+   </property>
+  </action>
+  <action name="action7_point_method">
+   <property name="text">
+    <string>7 Point method</string>
+   </property>
+  </action>
+  <action name="action_8">
+   <property name="text">
+    <string>8 Point method</string>
+   </property>
+  </action>
+  <action name="actionRANSAC">
+   <property name="text">
+    <string>RANSAC</string>
+   </property>
+  </action>
+  <action name="actionEpipole">
+   <property name="text">
+    <string>Epipole</string>
+   </property>
+  </action>
+  <action name="actionHomography">
+   <property name="text">
+    <string>Homography</string>
+   </property>
+  </action>
+  <action name="actionMedian">
+   <property name="text">
+    <string>Median</string>
+   </property>
+  </action>
+  <action name="actionBilateral">
+   <property name="text">
+    <string>Bilateral</string>
+   </property>
+  </action>
+  <action name="actionGaussian">
+   <property name="text">
+    <string>Gaussian</string>
+   </property>
+  </action>
+  <action name="actionExtract">
+   <property name="text">
+    <string>Extract</string>
+   </property>
+  </action>
+  <action name="actionMatch">
+   <property name="text">
+    <string>Match</string>
+   </property>
+  </action>
+  <action name="actionExtract_2">
+   <property name="text">
+    <string>Extract</string>
+   </property>
+  </action>
+  <action name="actionMatch_2">
+   <property name="text">
+    <string>Match</string>
+   </property>
+  </action>
+  <action name="actionExtract_3">
+   <property name="text">
+    <string>Extract</string>
+   </property>
+  </action>
+  <action name="actionMatch_3">
+   <property name="text">
+    <string>Match</string>
+   </property>
+  </action>
+  <action name="actionMorphology_Gradient">
+   <property name="text">
+    <string>Morphology Gradient</string>
+   </property>
+  </action>
+  <action name="actionTop_Hat">
+   <property name="text">
+    <string>Top Hat</string>
+   </property>
+  </action>
+  <action name="actionBlack_Hat">
+   <property name="text">
+    <string>Black Hat</string>
+   </property>
+  </action>
+  <action name="actionCustom_Filter">
+   <property name="text">
+    <string>Custom Filter</string>
+   </property>
+  </action>
+  <action name="actionNormalise">
+   <property name="text">
+    <string>Normalise</string>
+   </property>
+  </action>
+  <action name="actionBounding_Box">
+   <property name="text">
+    <string>Bounding Box</string>
+   </property>
+  </action>
+  <action name="actionMin_Enclosing_Circle">
+   <property name="text">
+    <string>Min Enclosing Circle</string>
+   </property>
+  </action>
+  <action name="actionMin_Enclosing_Ellipse">
+   <property name="text">
+    <string>Min Enclosing Ellipse</string>
+   </property>
+  </action>
+  <action name="actionConvex_Hull">
+   <property name="text">
+    <string>Convex Hull</string>
+   </property>
+  </action>
+  <action name="actionMoments">
+   <property name="text">
+    <string>Moments</string>
+   </property>
+  </action>
+  <action name="actionThreshold">
+   <property name="text">
+    <string>Threshold</string>
+   </property>
+  </action>
+  <action name="actionRotated_Rectangle">
+   <property name="text">
+    <string>Rotated Rectangle</string>
+   </property>
+  </action>
+  <action name="actionGet_second_Image_for_Matching">
+   <property name="text">
+    <string>Get Second Image for Matching</string>
+   </property>
+  </action>
+  <action name="actionGet_Second_Image">
+   <property name="text">
+    <string>Get Right Image </string>
+   </property>
+  </action>
+  <action name="actionGet_Images_from_WebCam">
+   <property name="text">
+    <string>Get Left and Right Images from WebCam</string>
+   </property>
+  </action>
+  <action name="actionCalibrate">
+   <property name="text">
+    <string>Calibrate Camera</string>
+   </property>
+  </action>
+  <action name="actionUndistort_Image">
+   <property name="text">
+    <string>Undistort Image</string>
+   </property>
+  </action>
+  <action name="actionGet_Images_for_Calibration_from_Webcam">
+   <property name="text">
+    <string>Get Images for Calibration from Webcam</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionHtml">
+   <property name="text">
+    <string>html</string>
+   </property>
+  </action>
+  <action name="actionPdf">
+   <property name="text">
+    <string>pdf</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="window_QT.qrc"/>
+ </resources>
+ <connections/>
+</ui>

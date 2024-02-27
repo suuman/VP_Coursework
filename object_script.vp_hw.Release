@@ -1,0 +1,13 @@
+INPUT(
+./release/main.o
+./release/mainwindow.o
+./release/window_QT.o
+./release/options.o
+./release/cvfunctions.o
+./release/CameraCalibrator.o
+./release/moc_mainwindow.o
+./release/moc_window_QT.o
+./release/moc_options.o
+./release/moc_cvfunctions.o
+./release/qrc_window_QT.o
+);
