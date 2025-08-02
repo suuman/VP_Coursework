@@ -7,7 +7,7 @@
 #define OPTIONS_H
 
 #include <QDialog>
-#include "cvfunctions.h"
+
 using namespace std;
 
 namespace Ui {

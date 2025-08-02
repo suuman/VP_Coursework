@@ -76,7 +76,7 @@
       <x>10</x>
       <y>20</y>
       <width>971</width>
-      <height>31</height>
+      <height>32</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -111,7 +111,7 @@
             <string>Play</string>
            </property>
            <property name="icon">
-            <iconset resource="window_QT.qrc">
+            <iconset>
              <normaloff>:/Play</normaloff>
              <normalon>:/Pause</normalon>:/Play</iconset>
            </property>
@@ -123,7 +123,7 @@
             <string>Pause</string>
            </property>
            <property name="icon">
-            <iconset resource="window_QT.qrc">
+            <iconset>
              <normaloff>:/Pause</normaloff>
              <normalon>:/Play</normalon>:/Pause</iconset>
            </property>
@@ -135,7 +135,7 @@
             <string>Stop</string>
            </property>
            <property name="icon">
-            <iconset resource="window_QT.qrc">
+            <iconset>
              <normaloff>:/Stop</normaloff>:/Stop</iconset>
            </property>
           </widget>
@@ -151,8 +151,8 @@
      <rect>
       <x>590</x>
       <y>0</y>
-      <width>388</width>
-      <height>19</height>
+      <width>518</width>
+      <height>26</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -446,7 +446,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFlip">
@@ -1105,8 +1105,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="window_QT.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

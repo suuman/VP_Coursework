@@ -7,22 +7,17 @@
 #define CVFUNCTIONS_H
 
 #include <QObject>
-#include "definations.h"
 #include <QStringList>
-
-
-#include<cv.h>
-#include<highgui.h>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/features2d/features2d.hpp>
+#include <opencv2/opencv.hpp>
 using namespace cv;
 
 class CVFunctions : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit CVFunctions(QObject *parent = 0);
+    explicit CVFunctions(QObject *parent = nullptr);
+
     Mat process(const Mat &,int);
     Mat process(const Mat &,QList<int>);
     Mat ip_image;

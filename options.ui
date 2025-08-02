@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>299</height>
+    <width>610</width>
+    <height>384</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>610</width>
+    <height>384</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>610</width>
+    <height>384</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -16,14 +34,32 @@
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>521</width>
-     <height>271</height>
+     <x>10</x>
+     <y>10</y>
+     <width>591</width>
+     <height>331</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>591</width>
+     <height>331</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>591</width>
+     <height>331</height>
+    </size>
+   </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -190,7 +226,7 @@
       <rect>
        <x>10</x>
        <y>170</y>
-       <width>82</width>
+       <width>111</width>
        <height>17</height>
       </rect>
      </property>
@@ -228,135 +264,86 @@
     <attribute name="title">
      <string>Morphology</string>
     </attribute>
-    <widget class="QLabel" name="label_12">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>160</y>
-       <width>291</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>For Morphology Open.Close,Grdient,Top hat and Black Hat</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget_9">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>160</y>
-       <width>217</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_22">
-      <item>
-       <widget class="QRadioButton" name="radioButton_MDefaults">
-        <property name="text">
-         <string>OpenCV Default</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton_MCustom">
-        <property name="text">
-         <string>Custom</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>190</y>
-       <width>441</width>
-       <height>41</height>
+       <x>0</x>
+       <y>240</y>
+       <width>571</width>
+       <height>60</height>
       </rect>
      </property>
      <property name="title">
       <string/>
      </property>
-     <widget class="QWidget" name="layoutWidget_8">
-      <property name="geometry">
-       <rect>
-        <x>6</x>
-        <y>7</y>
-        <width>567</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_49">
-       <item>
-        <widget class="QLabel" name="label_60">
-         <property name="text">
-          <string>Structuring Element </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_50">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_51">
-           <item>
-            <widget class="QRadioButton" name="radioButton_MRect">
-             <property name="text">
-              <string>Rectangle</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="radioButton_MEllipse">
-             <property name="text">
-              <string>Ellipse</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="radioButton_MCross">
-             <property name="text">
-              <string>Cross</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_52">
-           <item>
-            <widget class="QLabel" name="label_61">
-             <property name="text">
-              <string>Kernel Size(2n+1)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="kern_sz">
-             <property name="decimals">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <double>22.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>1.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_49">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_50">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_52">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_51">
+              <item>
+               <widget class="QRadioButton" name="radioButton_MRect">
+                <property name="text">
+                 <string>Rectangle</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton_MEllipse">
+                <property name="text">
+                 <string>Ellipse</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton_MCross">
+                <property name="text">
+                 <string>Cross</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_61">
+              <property name="text">
+               <string>Kernel Size(2n+1)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="kern_sz">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="decimals">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <double>22.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -389,8 +376,8 @@
       <rect>
        <x>0</x>
        <y>70</y>
-       <width>481</width>
-       <height>81</height>
+       <width>571</width>
+       <height>121</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_45">
@@ -404,8 +391,8 @@
           <rect>
            <x>4</x>
            <y>5</y>
-           <width>243</width>
-           <height>84</height>
+           <width>251</width>
+           <height>87</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -470,83 +457,89 @@
           </item>
          </layout>
         </widget>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_1">
-        <property name="title">
-         <string/>
-        </property>
-        <widget class="QWidget" name="layoutWidget_7">
+        <widget class="QGroupBox" name="groupBox_1">
          <property name="geometry">
           <rect>
-           <x>4</x>
-           <y>5</y>
-           <width>243</width>
-           <height>84</height>
+           <x>260</x>
+           <y>0</y>
+           <width>251</width>
+           <height>101</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_8">
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>Structuring Element for Dilation</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_20">
-            <item>
-             <widget class="QRadioButton" name="radioButton_DRect">
-              <property name="text">
-               <string>Rectangle</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioButton_DEllipse">
-              <property name="text">
-               <string>Ellipse</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioButton_DCross">
-              <property name="text">
-               <string>Cross</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_39">
-            <item>
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Kernel Size(2n+1)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="dilate_kern_sz">
-              <property name="decimals">
-               <number>0</number>
-              </property>
-              <property name="maximum">
-               <double>22.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QWidget" name="layoutWidget_7">
+          <property name="geometry">
+           <rect>
+            <x>4</x>
+            <y>5</y>
+            <width>241</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Structuring Element for Dilation</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_20">
+             <item>
+              <widget class="QRadioButton" name="radioButton_DRect">
+               <property name="text">
+                <string>Rectangle</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_DEllipse">
+               <property name="text">
+                <string>Ellipse</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_DCross">
+               <property name="text">
+                <string>Cross</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_39">
+             <item>
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>Kernel Size(2n+1)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="dilate_kern_sz">
+               <property name="decimals">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <double>22.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -555,9 +548,9 @@
     <widget class="QSplitter" name="splitter">
      <property name="geometry">
       <rect>
-       <x>1</x>
-       <y>21</y>
-       <width>471</width>
+       <x>0</x>
+       <y>20</y>
+       <width>521</width>
        <height>49</height>
       </rect>
      </property>
@@ -681,12 +674,53 @@
       </layout>
      </widget>
     </widget>
-    <zorder>label_12</zorder>
-    <zorder>layoutWidget_9</zorder>
-    <zorder>groupBox_3</zorder>
-    <zorder>layoutWidget</zorder>
-    <zorder>layoutWidget</zorder>
-    <zorder>splitter</zorder>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>561</width>
+       <height>52</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>For Morphology Open, Close, Grdient, Top Hat and Black Hat</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_60">
+        <property name="text">
+         <string>Structuring Element </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_22">
+        <item>
+         <widget class="QRadioButton" name="radioButton_MDefaults">
+          <property name="text">
+           <string>OpenCV Default</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_MCustom">
+          <property name="text">
+           <string>Custom</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
@@ -1024,7 +1058,7 @@
         <x>1</x>
         <y>1</y>
         <width>471</width>
-        <height>86</height>
+        <height>87</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1032,7 +1066,6 @@
         <widget class="QLabel" name="label_25">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1174,7 +1207,6 @@
         <widget class="QLabel" name="label_55">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1262,7 +1294,7 @@
        <x>0</x>
        <y>140</y>
        <width>481</width>
-       <height>81</height>
+       <height>101</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -1285,7 +1317,6 @@
         <widget class="QLabel" name="label_79">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1417,8 +1448,8 @@
       <rect>
        <x>11</x>
        <y>11</y>
-       <width>521</width>
-       <height>216</height>
+       <width>532</width>
+       <height>220</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_34">
@@ -1785,6 +1816,89 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab_22">
+    <attribute name="title">
+     <string>Camera</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>40</y>
+       <width>188</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_18">
+      <item>
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Connect to Camera </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="cameraID">
+        <property name="maximum">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>130</y>
+       <width>323</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_19">
+      <item>
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Broad Size for Calibration</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="boardwidth">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>20</number>
+        </property>
+        <property name="value">
+         <number>6</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>      X</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="boardlength">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>20</number>
+        </property>
+        <property name="value">
+         <number>4</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
    <widget class="QWidget" name="tab_9">
     <attribute name="title">
      <string>Features</string>
@@ -2045,89 +2159,6 @@
          </layout>
         </item>
        </layout>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_22">
-    <attribute name="title">
-     <string>Camera</string>
-    </attribute>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>40</y>
-       <width>188</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_18">
-      <item>
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Connect to Camera </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="cameraID">
-        <property name="maximum">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>130</y>
-       <width>323</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_19">
-      <item>
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Broad Size for Calibration</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="boardwidth">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>20</number>
-        </property>
-        <property name="value">
-         <number>6</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_22">
-        <property name="text">
-         <string>      X</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="boardlength">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>20</number>
-        </property>
-        <property name="value">
-         <number>4</number>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
@@ -2503,7 +2534,7 @@
       <rect>
        <x>340</x>
        <y>120</y>
-       <width>86</width>
+       <width>89</width>
        <height>29</height>
       </rect>
      </property>
@@ -2533,7 +2564,7 @@
        <x>0</x>
        <y>10</y>
        <width>471</width>
-       <height>61</height>
+       <height>63</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2595,8 +2626,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>270</y>
+     <x>60</x>
+     <y>350</y>
      <width>471</width>
      <height>29</height>
     </rect>

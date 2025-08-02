@@ -4,15 +4,15 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
+QT += widgets
 TARGET = vp_hw
-TEMPLATE = app
-#CONFIG   += console
+
+QT += testlib
+
 
 SOURCES += main.cpp\
+window_QT.cpp     \
         mainwindow.cpp \
-    window_QT.cpp \
     options.cpp \
     cvfunctions.cpp \
     CameraCalibrator.cpp
@@ -31,7 +31,7 @@ FORMS    += mainwindow.ui \
 ## For windows
 win32 {
     # Set this to the folder where you compiled the opencv source
-    OPENCV_DIR = "C:\OpenCV2.3"
+    OPENCV_DIR = "C:\OpenCV"
 
     INCLUDEPATH += $$OPENCV_DIR\\include \
                 $$OPENCV_DIR\\include\\opencv \
@@ -51,7 +51,7 @@ win32 {
 unix {
     # using pkg-config
     CONFIG += link_pkgconfig
-    PKGCONFIG += opencv
+    PKGCONFIG += opencv4
 }
 
 RESOURCES += \

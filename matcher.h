@@ -23,20 +23,17 @@
 #define MATCHER
 
 #include <vector>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/features2d/features2d.hpp>
+#include <opencv2/opencv.hpp>
 #include "definations.h"
+//#include <opencv2/xfeatures2d.hpp>
 
 class RobustMatcher {
 
   private:
 
 	  // pointer to the feature point detector object
-	  cv::Ptr<cv::FeatureDetector> detector;
 	  // pointer to the feature descriptor extractor object
-	  cv::Ptr<cv::DescriptorExtractor> extractor;
+      cv::Ptr<cv::Feature2D> detector;
 	  float ratio; // max ratio between 1st and 2nd NN
 	  bool refineF; // if true will refine the F matrix
 	  double distance; // min distance to epipolar
@@ -47,22 +44,16 @@ class RobustMatcher {
       RobustMatcher() : ratio(0.65f), refineF(false), confidence(0.99), distance(3.0) {
 
 		  // SURF is the default feature
-		  detector= new cv::SurfFeatureDetector();
-		  extractor= new cv::SurfDescriptorExtractor();
+          detector= cv::ORB::create();
 	  }
 
 	  // Set the feature detector
-	  void setFeatureDetector(cv::Ptr<cv::FeatureDetector>& detect) {
+      void setFeatureDetector(cv::Ptr<cv::Feature2D>& detect) {
 
 		  detector= detect;
 	  }
 
 	  // Set descriptor extractor
-	  void setDescriptorExtractor(cv::Ptr<cv::DescriptorExtractor>& desc) {
-
-		  extractor= desc;
-	  }
-
 	  // Set the minimum distance to epipolar in RANSAC
 	  void setMinDistanceToEpipolar(double d) {
 
@@ -159,8 +150,8 @@ class RobustMatcher {
                          std::vector<cv::DMatch>& outMatches,int type) {
           int method;
 
-          if(type = FUND7P) {refineF = true; method = CV_FM_7POINT;}
-          else if(type == FUND8P) {refineF = true; method = CV_FM_8POINT;}
+          if(type = FUND7P) {refineF = true; method = cv::FM_7POINT;}
+          else if(type == FUND8P) {refineF = true; method = cv::FM_8POINT;}
           else refineF = false;
 
 		// Convert keypoints into Point2f	
@@ -182,8 +173,8 @@ class RobustMatcher {
 		std::vector<uchar> inliers(points1.size(),0);
 		cv::Mat fundemental= cv::findFundamentalMat(
 			cv::Mat(points1),cv::Mat(points2), // matching points
-		    inliers,      // match status (inlier ou outlier)  
-		    CV_FM_RANSAC, // RANSAC method
+            inliers,      // match status (inlier ou outlier)
+            cv::FM_RANSAC, // RANSAC method
 		    distance,     // distance to epipolar line
 		    confidence);  // confidence probability
 	
@@ -245,27 +236,26 @@ class RobustMatcher {
 
 		// 1b. Extraction of the SURF descriptors
 		cv::Mat descriptors1, descriptors2;
-		extractor->compute(image1,keypoints1,descriptors1);
-		extractor->compute(image2,keypoints2,descriptors2);
+        detector->compute(image1,keypoints1,descriptors1);
+        detector->compute(image2,keypoints2,descriptors2);
 
 		std::cout << "descriptor matrix size: " << descriptors1.rows << " by " << descriptors1.cols << std::endl;
 
 		// 2. Match the two image descriptors
 
-		// Construction of the matcher 
-        cv::BruteForceMatcher<cv::L2<float> > matcher;
-
+        // Construction of the matcher
+        cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
 		// from image 1 to image 2
 		// based on k nearest neighbours (with k=2)
         std::vector<std::vector<cv::DMatch> > matches1;
-		matcher.knnMatch(descriptors1,descriptors2, 
+        matcher->knnMatch(descriptors1,descriptors2,
 			matches1, // vector of matches (up to 2 per entry) 
 			2);		  // return 2 nearest neighbours
 
 		// from image 2 to image 1
 		// based on k nearest neighbours (with k=2)
         std::vector<std::vector<cv::DMatch> > matches2;
-		matcher.knnMatch(descriptors2,descriptors1, 
+        matcher->knnMatch(descriptors2,descriptors1,
 			matches2, // vector of matches (up to 2 per entry) 
 			2);		  // return 2 nearest neighbours
 

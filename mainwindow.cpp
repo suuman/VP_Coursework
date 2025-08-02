@@ -6,7 +6,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "definations.h"
 #include <QDesktopServices>
 #include <QUrl>
 #include <QMessageBox>
@@ -97,7 +97,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::updateImage( const cv::Mat &image, int i )
 {
-    CvMat c_img = image;
+    CvMat c_img ;
+    c_img = cvMat(image);
   double w = c_img.width;
   double h = c_img.height;
   double x0 = 0;
@@ -154,8 +155,10 @@ void MainWindow::updateImageSize(const QSize &size,int i) {
     int height = size.height();
 
 
-    cvWindow[i]->getView()->setSceneRect(QRect(0,0,width,height));
-    cvWindow[i]->getView()->setFixedSize(QSize(width, height));
+    //cvWindow[i]->getView()->setSceneRect(QRect(0,0,width,height));
+    //cvWindow[i]->getView()->setFixedSize(QSize(width, height));
+    cvWindow[i]->setFixedSize(QSize(width, height));
+
     cvWindow[i]->resize(QSize(width, height));
 }
 
@@ -332,7 +335,7 @@ void MainWindow::on_actionVideo_triggered()
        vid>>(frame);
        displayInputImage (frame);
      }
-   vid.set(CV_CAP_PROP_POS_AVI_RATIO,0);
+    vid.set(cv::CAP_PROP_POS_AVI_RATIO,0);
      savevideo = false;
     ui->playButton->show ();
     ui->stopButton->show ();
@@ -380,7 +383,7 @@ void MainWindow::getVideoStream()
        restorechecked();
       double delay = 0;
       if(!imagebuffer->isEmpty ()) imagebuffer->clear ();
-      if(isVideo) delay =1000/vid.get(CV_CAP_PROP_FPS);
+      if(isVideo) delay =1000/vid.get(cv::CAP_PROP_FPS);
        for(;;)
            {
 
@@ -500,12 +503,12 @@ void MainWindow::on_actionSaveVideo_triggered()
         if(!filename.isEmpty ()){
         savevideo = true;
          if(isVideo)
-            vidfile.open(filename.toStdString (),1,vid.get(CV_CAP_PROP_FPS),img_input.size(),false);
+            vidfile.open(filename.toStdString (),1,vid.get(cv::CAP_PROP_FPS),img_input.size(),false);
 
         else {
-              vidfile.open(filename.toStdString (),vid.get(CV_CAP_PROP_FOURCC),16,img_input.size(),false);
+             vidfile.open(filename.toStdString (),vid.get(cv::CAP_PROP_FOURCC),16,img_input.size(),false);
             filename.insert(filename.length ()-4,QString("_org"));
-            webfile.open(filename.toStdString (),vid.get(CV_CAP_PROP_FOURCC),16,img_input.size(),true);
+             webfile.open(filename.toStdString (),vid.get(cv::CAP_PROP_FOURCC),16,img_input.size(),true);
         }
     }
    }
@@ -861,8 +864,6 @@ void MainWindow::on_actionBlack_Hat_triggered(bool checked)
 {
     emit ProcessID(BLACKHAT,checked);
 }
-
-
 
 
 void MainWindow::on_actionCustom_Filter_triggered(bool checked)

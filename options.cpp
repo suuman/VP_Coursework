@@ -6,6 +6,7 @@
 #include "options.h"
 #include "ui_options.h"
 #include "mainwindow.h"
+#include "cvfunctions.h"
 
 Options::Options(QWidget *parent) :
     QDialog(parent),

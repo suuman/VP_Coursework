@@ -6,16 +6,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/opencv.hpp>
+
 #include "window_QT.h" //taken from opencv high gui folder
-#include <iostream>
 #include <cstdlib>
 #include <QThread>
-#include <QLinkedList>
+//#include <QLinkedList>
 #include "options.h"
 #include "cvfunctions.h"
-#include "definations.h"
 using namespace std;
 
 using namespace cv;
