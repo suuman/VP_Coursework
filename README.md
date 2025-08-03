@@ -10,10 +10,10 @@ $ sudo apt install opencv-dev
 $ sudo apt install qt6-base-dev qt6-tools-dev qtcreator
 
 # Build
-## Qmake
+### Qmake
 Open vp_hw using Qtcreator select debug or release folder and build
 
-## CMake
+### CMake
 $ cd release or cd debug
 $ cmake ..
 $ build
