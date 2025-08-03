@@ -20,6 +20,8 @@ set(PROJECT_SOURCES
         cvfunctions.cpp
         CameraCalibrator.cpp
         window_QT.qrc
+        mainwindow.ui
+        options.ui
 )
 
  set(PROJECT_HEADERS 

@@ -14,8 +14,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-     ui_options(this),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    ui_options(this)
 {
     ui->setupUi(this);
 
@@ -52,12 +52,12 @@ for(int i = 0 ; i<2 ; i++){
     //connect(frame[i], SIGNAL(resizeImage(QSize)), this, SLOT(updateImageSize(QSize)));
     //updateImageSize(frame[i]->size(),i);
 }
- img_input = Mat(3, 4, CV_8U,Scalar::all(0));
- img = Mat(3, 4, CV_8U,Scalar::all(0));
- img_op = Mat(3, 4, CV_8U,Scalar::all(0));
- t_mat = Mat(3, 4, CV_8U,Scalar::all(0));
+ img_input = cv::Mat(408, 480, CV_8U, cv::Scalar::all(0));
+ img = cv::Mat(408, 480, CV_8U, cv::Scalar::all(0));
+ img_op = cv::Mat(408, 480, CV_8U, cv::Scalar::all(0));
+ t_mat = cv::Mat(408, 480, CV_8U, cv::Scalar::all(0));
  flag = 0;
- imagebuffer = new QList<Mat>();
+ imagebuffer = new QList<cv::Mat>();
  imagebufferindex = 0;
  processlist.clear ();
  processlist.append(0);
@@ -77,7 +77,7 @@ for(int i = 0 ; i<2 ; i++){
   imcap = false;
    ui->frame->setVisible (false);
    ui->actionUndistort_Image->setDisabled (true);
-   ui->menuInvert->setDisabled (true);
+   //ui->menuInvert->setDisabled (true);
 }
 
 MainWindow::~MainWindow()
@@ -141,7 +141,7 @@ void MainWindow::updateImage( const QString &str, int i )
 {
    if(!str.isEmpty())
    {
-    img_input = imread(str.toStdString());
+    img_input = cv::imread(str.toStdString());
      if(i==0) displayInputImage(img_input);
      else displayOutputImage (img_input);
 
@@ -162,21 +162,21 @@ void MainWindow::updateImageSize(const QSize &size,int i) {
     cvWindow[i]->resize(QSize(width, height));
 }
 
-Mat MainWindow::readImage(const QString &str)
+cv::Mat MainWindow::readImage(const QString &str)
 {
-   Mat im;
+   cv::Mat im;
     if(!str.isEmpty())
-       im = imread(str.toStdString());
+       im = cv::imread(str.toStdString());
    return im;
 }
 
-void MainWindow::displayOutputImage(const Mat &image)
+void MainWindow::displayOutputImage(const cv::Mat &image)
 {
     updateImage(image,1);
     if(ui->checkBox_op->checkState ())
     {
-        namedWindow("Output",CV_WINDOW_NORMAL);
-        imshow ("Output",image);
+        cv::namedWindow("Output",cv::WINDOW_NORMAL);
+        cv::imshow ("Output",image);
 
     }
 
@@ -188,13 +188,13 @@ void MainWindow::displayOutputImage(const Mat &image)
 
 }
 
-void MainWindow::displayInputImage(const Mat &image)
+void MainWindow::displayInputImage(const cv::Mat &image)
 {
     updateImage(image,0);
     if(ui->checkBox_ip->checkState ())
     {
-        namedWindow("Input",CV_WINDOW_NORMAL);
-        imshow ("Input",image);
+        cv::namedWindow("Input",cv::WINDOW_NORMAL);
+        cv::imshow ("Input",image);
 
     }
     if(!calflag){
@@ -267,12 +267,12 @@ void MainWindow::on_checkBox_ip_stateChanged(int arg1)
 {
  if(!img_input.empty ()){
     if(arg1 != 0){
-                namedWindow("Input",CV_WINDOW_AUTOSIZE );
-                imshow ("Input",i_disp );
+                cv::namedWindow("Input",cv::WINDOW_AUTOSIZE );
+                cv::imshow ("Input",i_disp );
         }
         else{
-          namedWindow("Input",CV_WINDOW_AUTOSIZE );
-          destroyWindow ("Input");
+          cv::namedWindow("Input", cv::WINDOW_AUTOSIZE );
+          cv::destroyWindow ("Input");
         }
  }
 }
@@ -282,12 +282,12 @@ void MainWindow::on_checkBox_op_stateChanged(int arg1)
   if(!img_op.empty ()){
     if(arg1 != 0)
     {
-        namedWindow("Output",CV_WINDOW_AUTOSIZE );
-        imshow ("Output",img_op);
+        cv::namedWindow("Output",cv::WINDOW_AUTOSIZE );
+        cv::imshow ("Output",img_op);
     }
     else{
-     namedWindow("Output",CV_WINDOW_AUTOSIZE );
-     destroyWindow ("Output");
+     cv::namedWindow("Output",cv::WINDOW_AUTOSIZE );
+     cv::destroyWindow ("Output");
     }
   }
 }
@@ -331,7 +331,7 @@ void MainWindow::on_actionVideo_triggered()
     isVideo = true;
     if(vid.isOpened())
     {
-       Mat frame;
+       cv::Mat frame;
        vid>>(frame);
        displayInputImage (frame);
      }
@@ -368,8 +368,8 @@ void MainWindow::getVideoStream()
    ui->actionUndo->setEnabled (false);
     if(vid.isOpened())
     {
-      Mat opframe;
-      Mat frame;
+      cv::Mat opframe;
+      cv::Mat frame;
       flag = 1;
        makeMenuCheckable(flag);
         ui->menuInvert->setEnabled (true);
@@ -530,7 +530,7 @@ void MainWindow::on_actionGet_Logo_triggered()
 void MainWindow::on_actionUndo_triggered()
 {
    imagebufferindex--;
-    Mat t_im = imagebuffer->at(imagebufferindex);
+    cv::Mat t_im = imagebuffer->at(imagebufferindex);
    displayOutputImage (t_im);
 
    if(imagebufferindex==0){
@@ -543,7 +543,7 @@ void MainWindow::on_actionUndo_triggered()
 void MainWindow::on_actionRedo_triggered()
 {
     imagebufferindex++;
-    Mat t_im = imagebuffer->at(imagebufferindex);
+    cv::Mat t_im = imagebuffer->at(imagebufferindex);
     displayOutputImage (t_im);
 
     if(imagebufferindex == imagebuffer->size()-1){
@@ -601,6 +601,7 @@ void MainWindow::makeMenuCheckable(bool status)
     ui->actionConvex_Hull->setCheckable (status);
    ui->actionMoments->setCheckable (status);
    ui->actionThreshold->setCheckable (status);
+   ui->actionOtsuThreshold->setCheckable (status);
    ui->actionRotated_Rectangle->setCheckable (status);
    ui->actionHarris->setCheckable (status);
    ui->actionExtract->setCheckable (status);
@@ -655,6 +656,7 @@ if(!processlist.isEmpty ()){
       case CONVEXHULL:ui->actionConvex_Hull->setChecked (true);break;
       case MOMENTS:ui->actionMoments->setChecked (true);break;
       case THRESHOLD:ui->actionThreshold->setChecked (true);break;
+      case OSTU:ui->actionOtsuThreshold->setChecked (true);break;
       case RECTROT:ui->actionRotated_Rectangle->setChecked (true);break;
       case HARIS:ui->actionHarris->setChecked (true);break;
       case FASTFEATURES:ui->actionExtract->setChecked (true);break;
@@ -936,6 +938,12 @@ void MainWindow::on_actionThreshold_triggered(bool checked)
     emit ProcessID(THRESHOLD,checked);
 }
 
+
+void MainWindow::on_actionOtsuThreshold_triggered(bool checked)
+{
+    emit ProcessID(OSTU,checked);
+}
+
 void MainWindow::on_actionRotated_Rectangle_triggered(bool checked)
 {
     emit ProcessID(RECTROT,checked);
@@ -969,7 +977,7 @@ void MainWindow::on_actionGet_second_Image_for_Matching_triggered(bool checked)
                                                       "Images (*.bmp *.png *.jpg *.pgm *.ppm *.pbm *.tif)" );
    if( !imfile2.isEmpty() )
    {
-    cvfunctions.ip_image2 = imread(imfile2.toStdString());
+    cvfunctions.ip_image2 = cv::imread(imfile2.toStdString());
     updateImage(cvfunctions.ip_image2,1);
     cvfunctions.imfile2 = imfile2;
     ui->actionMatch->setEnabled (true);
@@ -986,7 +994,8 @@ void MainWindow::on_actionGet_second_Image_for_Matching_triggered(bool checked)
 
 void MainWindow::on_actionMatch_triggered(bool checked)
 {
-
+    matchflag = true;
+    emit ProcessID(SURFMATCH,checked);
 }
 
 void MainWindow::on_actionMatch_2_triggered(bool checked)
@@ -1032,7 +1041,7 @@ void MainWindow::on_actionGet_Second_Image_triggered(bool checked)
                                                       "Images (*.bmp *.png *.jpg *.pgm *.ppm *.pbm *.tif)" );
    if( !imfile2.isEmpty() )
    {
-    cvfunctions.ip_image2 = imread(imfile2.toStdString());
+    cvfunctions.ip_image2 = cv::imread(imfile2.toStdString());
     updateImage(cvfunctions.ip_image2,1);
     cvfunctions.imfile2 = imfile2;
     ui->actionMatch->setEnabled (true);
@@ -1095,7 +1104,7 @@ void MainWindow::getim()
   if(vid.isOpened())
    {
 
-     Mat frame;
+     cv::Mat frame;
      for(;;)
           {
               vid>>(frame); // get a new frame from camera
@@ -1148,7 +1157,7 @@ void MainWindow::getim()
 void MainWindow::dispalyMat(int id)
 {
     ui->frame->setVisible (true);
-    Mat matrix;
+    cv::Mat matrix;
 
     if(id == HOMOGRAPHY){
         ui->labeltext->setText (QString("Homography  = "));
@@ -1229,7 +1238,7 @@ void MainWindow::getcalim()
       if(vid.isOpened())
        {
           count = 1;
-         Mat frame;
+         cv::Mat frame;
          for(;;)
               {
                   vid>>(frame); // get a new frame from camera
@@ -1290,3 +1299,8 @@ void MainWindow::on_actionAbout_triggered()
                                                   ));
 
 }
+
+
+
+
+

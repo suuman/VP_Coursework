@@ -40,28 +40,28 @@ int CameraCalibrator::addChessboardPoints(
 	for (int i=0; i<boardSize.height; i++) {
 		for (int j=0; j<boardSize.width; j++) {
 
-            objectCorners.push_back(Point3f(i, j, 0.0f));
+            objectCorners.push_back(cv::Point3f(i, j, 0.0f));
 		}
     }
 
     // 2D Image points:
-    Mat image; // to contain chessboard image
+    cv::Mat image; // to contain chessboard image
     int successes = 0;
     // for all viewpoints
-    for (int i=0; i<filelist.size(); i++) {
+    for (unsigned int i=0; i<filelist.size(); i++) {
 
         // Open the image
-        image = imread(filelist[i],0);
+        image = cv::imread(filelist[i],0);
 
          //Get the chessboard corners //replaced this function from original one
         bool found = findChessboardCorners(image, boardSize, imageCorners,
-                                               CALIB_CB_ADAPTIVE_THRESH + CALIB_CB_NORMALIZE_IMAGE
-                                               + CALIB_CB_FAST_CHECK);
+                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
+                                               + cv::CALIB_CB_FAST_CHECK);
 
         if(found){ //aaded this
         // Get subpixel accuracy on the corners
-        cornerSubPix(image, imageCorners, Size(11,11),Size(-1,-1),
-            TermCriteria(TermCriteria::MAX_ITER + TermCriteria::EPS, 30,0.1));
+        cornerSubPix(image, imageCorners, cv::Size(11,11),cv::Size(-1,-1),
+            cv::TermCriteria(cv::TermCriteria::MAX_ITER + cv::TermCriteria::EPS, 30,0.1));
           // If we have a good board, add it to our data
 		  if (imageCorners.size() == boardSize.area()) {
 
@@ -73,7 +73,7 @@ int CameraCalibrator::addChessboardPoints(
         //Draw the corners
         drawChessboardCorners(image, boardSize, imageCorners, found);
         imshow("Corners on Chessboard", image);
-        waitKey(100);
+        cv::waitKey(100);
           }
         }
 
@@ -115,18 +115,18 @@ double CameraCalibrator::calibrate(cv::Size &imageSize)
 }
 
 // remove distortion in an image (after calibration)
-Mat CameraCalibrator::remapimage(const cv::Mat &image) {
+cv::Mat CameraCalibrator::remapimage(const cv::Mat &image) {
 
-    Mat undistorted;
+cv::Mat undistorted;
 
 	if (mustInitUndistort) { // called once per calibration
 
 
-       Mat undistCammatrix = getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, image.size(), 1, image.size(),0);
+       cv::Mat undistCammatrix = getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, image.size(), 1, image.size(),0);
             initUndistortRectifyMap(
 			cameraMatrix,  // computed camera matrix
             distCoeffs,    // computed distortion matrix
-            Mat(),     // optional rectification (none)
+            cv::Mat(),     // optional rectification (none)
             undistCammatrix,
             image.size(),  // size of undistorted
             CV_32FC1,      // type of output map
@@ -137,7 +137,7 @@ Mat CameraCalibrator::remapimage(const cv::Mat &image) {
 
 	// Apply mapping functions
     remap(image, undistorted, map1, map2,
-        INTER_CUBIC); // interpolation type
+        cv::INTER_CUBIC); // interpolation type
 
 	return undistorted;
 }

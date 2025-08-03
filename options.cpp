@@ -49,8 +49,8 @@ void Options::initiliseDefaults()
 {
     MainWindow *gui = (MainWindow *) p;
     gui->cvfunctions.showintermediatewindows = true;
-  gui->cvfunctions.ip_image = Mat(3, 4, CV_8U,Scalar::all(0));
-    gui->cvfunctions.ip_image2 = Mat(3, 4, CV_8U,Scalar::all(0));
+    gui->cvfunctions.ip_image = cv::Mat(3, 4, CV_8U,cv::Scalar::all(0));
+    gui->cvfunctions.ip_image2 = cv::Mat(3, 4, CV_8U,cv::Scalar::all(0));
     gui->cvfunctions.no_of_salt_pepper_noises = 10000;
     gui->cvfunctions.height = 1280;
     gui->cvfunctions.width = 800;
@@ -71,7 +71,7 @@ void Options::initiliseDefaults()
     gui->cvfunctions.sigmacolor = 10.0;
     gui->cvfunctions.sigmaspace = 10.0;
     gui->cvfunctions.filtermask.create (3,3,CV_64F);
-    gui->cvfunctions.filtermask = Scalar(0);
+    gui->cvfunctions.filtermask = cv::Scalar(0);
     gui->cvfunctions.filtermask.at<double>(0,1) = -1;
      gui->cvfunctions.filtermask.at<double>(1,0) = -1;
       gui->cvfunctions.filtermask.at<double>(1,2) = -1;
@@ -110,9 +110,9 @@ void Options::initiliseDefaults()
     gui->cvfunctions.fastthreshold = 40;
     gui->cvfunctions.hessianthreshold = 2500;
      gui->cvfunctions.matchesno = -1;
-     gui->cvfunctions.cameraMatrix = Mat(3, 3, CV_64F,Scalar::all(0));
+     gui->cvfunctions.cameraMatrix = cv::Mat(3, 3, CV_64F,cv::Scalar::all(0));
      gui->cvfunctions.cameraMatrix.at<double>(2,2) = 1;
-     gui->cvfunctions.distCoeffs = Mat(1,4,CV_64F,Scalar::all(0));
+     gui->cvfunctions.distCoeffs = cv::Mat(1,4,CV_64F,cv::Scalar::all(0));
      gui->cvfunctions.calstatus = false;
      gui->cvfunctions.broadlength = 6;
      gui->cvfunctions.broadwidth = 4;

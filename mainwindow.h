@@ -16,7 +16,6 @@
 #include "cvfunctions.h"
 using namespace std;
 
-using namespace cv;
 namespace Ui {
 class MainWindow;
 }
@@ -32,12 +31,12 @@ public:
     QString imfile;
     QString videofile;
     QString imfile2;
-    void updateImage( const Mat &image,int i );
+    void updateImage( const cv::Mat &image,int i );
     void updateImage( const QString &str,int i );
     void updateImageSize( const QSize &size,int i);
-    Mat readImage(const QString &str);
-    void displayInputImage(const Mat &image);
-    void displayOutputImage(const Mat &image);
+    cv::Mat readImage(const QString &str);
+    void displayInputImage(const cv::Mat &image);
+    void displayOutputImage(const cv::Mat &image);
     void updateBuffer(void);
    // int no_of_salt_pepper_noises;
     int flag;
@@ -209,6 +208,8 @@ private slots:
 
     void on_actionThreshold_triggered(bool checked);
 
+    void on_actionOtsuThreshold_triggered(bool checked);
+
     void on_actionRotated_Rectangle_triggered(bool checked);
 
     void on_actionHarris_triggered(bool checked);
@@ -254,24 +255,26 @@ private slots:
 
     void on_actionAbout_triggered();
 
+
+
 private:
     Ui::MainWindow *ui;
   //  CVFunctions cvfunctions;
     CvWindow *cvWindow[2];
     QFrame *frame[2];
-    VideoCapture vid;
-    VideoWriter vidfile,webfile;
+    cv::VideoCapture vid;
+    cv::VideoWriter vidfile,webfile;
 
-     QList<Mat> *imagebuffer;
+     QList<cv::Mat> *imagebuffer;
      int imagebufferindex;
      QList<int> processlist;
   //  QCheckBox *checkBox[2];
    //  QGridLayout *layout;
-    Mat img_input;
-    Mat img;
-    Mat img_op;
-    Mat t_mat;
-    Mat i_disp;
+    cv::Mat img_input;
+    cv::Mat img;
+    cv::Mat img_op;
+    cv::Mat t_mat;
+    cv::Mat i_disp;
     QTime t;
     bool matchflag;
     Options ui_options;

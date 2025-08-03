@@ -27,7 +27,6 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
-using namespace cv;
 
  class CameraCalibrator {
 
@@ -45,7 +44,7 @@ using namespace cv;
 
   public:
     CameraCalibrator() {flag = 0; mustInitUndistort = true;}
-    CameraCalibrator(Mat cammat, Mat distcoeff){  //added for my project
+    CameraCalibrator(cv::Mat cammat, cv::Mat distcoeff){  //added for my project
         cameraMatrix = cammat.clone ();
         distCoeffs = distcoeff.clone();
         flag = 0;

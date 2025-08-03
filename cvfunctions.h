@@ -9,7 +9,7 @@
 #include <QObject>
 #include <QStringList>
 #include <opencv2/opencv.hpp>
-using namespace cv;
+
 
 class CVFunctions : public QObject
 {
@@ -18,19 +18,19 @@ class CVFunctions : public QObject
 public:
     explicit CVFunctions(QObject *parent = nullptr);
 
-    Mat process(const Mat &,int);
-    Mat process(const Mat &,QList<int>);
-    Mat ip_image;
-    Mat ip_image2;
-    Mat ip_pp;
+    cv::Mat process(const cv::Mat &,int);
+    cv::Mat process(const cv::Mat &,QList<int>);
+    cv::Mat ip_image;
+    cv::Mat ip_image2;
+    cv::Mat ip_pp;
     QString imfile2;
     int no_of_salt_pepper_noises;
-    String logofile;
+    cv::String logofile;
     QString imfile;
     QString calibrationfolder;
     QStringList calibrationimages;
     bool showintermediatewindows;
-    Size dsize;
+    cv::Size dsize;
     int width;
     int height;
     int erodeiterno;
@@ -50,7 +50,7 @@ public:
     double sigmacolor;
     double sigmaspace;
     double offset;
-    Mat filtermask;
+    cv::Mat filtermask;
     int sobeldir;
     int sobelkersize;
     double sobelscale;
@@ -77,11 +77,11 @@ public:
      bool nonmaximalsupression;
      int fastthreshold;
      int hessianthreshold;
-     int matchesno;
-     Mat fundemental;
-     Mat homography;
-     Mat cameraMatrix;
-     Mat distCoeffs;
+     unsigned long matchesno;
+     cv::Mat fundemental;
+     cv::Mat homography;
+     cv::Mat cameraMatrix;
+     cv::Mat distCoeffs;
      bool calstatus;
      int broadlength;
      int broadwidth;
@@ -94,36 +94,37 @@ public slots:
 
 
 private:
-    Mat flip(const Mat &,int);
-    Mat addSaltnPepperNoise(const Mat &);
-    Mat addLogo(const Mat &, int);
-    Mat invert(const Mat &, int);
-    Mat convertColorSpace(const Mat &,int );
-    Mat calculateHistogram(const Mat &,int);
-    Mat equaliseHistogram(const Mat &);
-    Mat calculateHistogram(const Mat &);
-    Mat resizeImage(const Mat &);
-    Mat erodeImage(const Mat &);
-    Mat dilateImage(const Mat &);
-    Mat MorphologyTx(const Mat &,int);
-    Mat Filter(const Mat &,int);
-    Mat FilterCustom(const Mat &,int);
-    Mat edgeFilter(const Mat &,int);
-    Mat normaliseImage(const Mat &);
-    Mat houghTransform(const Mat &,int);
-    Mat extractContours(const Mat &);
-   Mat ShapeDescriptors(const Mat &,int);
-   Mat thresholdImage(const Mat &);
-   Mat calculateCorners(const Mat &);
-   Mat getFASTfeatures(const Mat &);
-   Mat getSURFfeatures(const Mat &);
-   Mat getSIFTfeatures(const Mat &);
-   Mat findMatchesSURF(const Mat &);
-    Mat findMatchesSIFT(const Mat &);
-    Mat calcFundamentalmatrix(const Mat &,int);
-    Mat calculateHomography(const Mat &);
-    Mat calibrateCamera(const Mat &);
-    Mat undistortImage(const Mat &);
+    cv::Mat flip(const cv::Mat &,int);
+    cv::Mat addSaltnPepperNoise(const cv::Mat &);
+    cv::Mat addLogo(const cv::Mat &, int);
+    cv::Mat invert(const cv::Mat &, int);
+    cv::Mat convertColorSpace(const cv::Mat &,int );
+    cv::Mat calculateHistogram(const cv::Mat &,int);
+    cv::Mat equaliseHistogram(const cv::Mat &);
+    cv::Mat calculateHistogram(const cv::Mat &);
+    cv::Mat resizeImage(const cv::Mat &);
+    cv::Mat erodeImage(const cv::Mat &);
+    cv::Mat dilateImage(const cv::Mat &);
+    cv::Mat MorphologyTx(const cv::Mat &,int);
+    cv::Mat Filter(const cv::Mat &,int);
+    cv::Mat FilterCustom(const cv::Mat &,int);
+    cv::Mat edgeFilter(const cv::Mat &,int);
+    cv::Mat normaliseImage(const cv::Mat &);
+    cv::Mat houghTransform(const cv::Mat &,int);
+    cv::Mat extractContours(const cv::Mat &);
+    cv::Mat ShapeDescriptors(const cv::Mat &,int);
+    cv::Mat thresholdImage(const cv::Mat &);
+    cv::Mat OstuthresholdImage(const cv::Mat &);
+    cv::Mat calculateCorners(const cv::Mat &);
+    cv::Mat getFASTfeatures(const cv::Mat &);
+    cv::Mat getSURFfeatures(const cv::Mat &);
+    cv::Mat getSIFTfeatures(const cv::Mat &);
+    cv::Mat findMatchesSURF(const cv::Mat &);
+    cv::Mat findMatchesSIFT(const cv::Mat &);
+    cv::Mat calcFundamentalmatrix(int);
+    cv::Mat calculateHomography();
+    cv::Mat calibrateCamera();
+    cv::Mat undistortImage(const cv::Mat &);
 
 };
 

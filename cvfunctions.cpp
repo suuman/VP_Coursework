@@ -15,12 +15,13 @@
 #include <iostream>
 #include "definations.h"
 using namespace std;
+
 CVFunctions::CVFunctions(QObject *parent) :
     QObject(parent)
 {
 }
 
-Mat CVFunctions::process (const Mat &img_ip,int id)
+cv::Mat CVFunctions::process (const cv::Mat &img_ip,int id)
 {
     switch(id){
     case FLIP_HORIZONTAL: return flip(img_ip,1); break;
@@ -73,6 +74,7 @@ Mat CVFunctions::process (const Mat &img_ip,int id)
     case CONVEXHULL:return ShapeDescriptors(img_ip,id);break;
     case MOMENTS:return ShapeDescriptors(img_ip,id);break;
     case THRESHOLD: return thresholdImage (img_ip);break;
+    case OSTU: return OstuthresholdImage (img_ip);break;
     case RECTROT: return ShapeDescriptors(img_ip,id);break;
     case HARIS: return calculateCorners(img_ip);break;
     case FASTFEATURES: return getFASTfeatures(img_ip);break;
@@ -80,20 +82,20 @@ Mat CVFunctions::process (const Mat &img_ip,int id)
     case SIFTFEATURES: return getSIFTfeatures(img_ip);break;
     case SIFTMATCH: return findMatchesSIFT(img_ip);break;
     case SURFMATCH: return findMatchesSURF(img_ip);break;
-    case FUND7P: return calcFundamentalmatrix(img_ip,id);break;
-    case FUND8P: return calcFundamentalmatrix(img_ip,id);break;
-    case FUNDRANSAC: return calcFundamentalmatrix(img_ip,id);break;
-    case HOMOGRAPHY: return calculateHomography(img_ip);break;
-    case CALIBRATE: return calibrateCamera(img_ip);break;
+    case FUND7P: return calcFundamentalmatrix(id);break;
+    case FUND8P: return calcFundamentalmatrix(id);break;
+    case FUNDRANSAC: return calcFundamentalmatrix(id);break;
+    case HOMOGRAPHY: return calculateHomography();break;
+    case CALIBRATE: return calibrateCamera();break;
     case UNDISTORT: return undistortImage(img_ip);break;
 
     default: return img_ip;
     }
 }
 
-Mat CVFunctions::process(const Mat &img_ip,QList<int> processlist)
+cv::Mat CVFunctions::process(const cv::Mat &img_ip,QList<int> processlist)
 {
-    Mat im_op = img_ip.clone();
+    cv::Mat im_op = img_ip.clone();
     QList<int>::iterator iter;
     if(!processlist.isEmpty ())
     {
@@ -107,16 +109,16 @@ Mat CVFunctions::process(const Mat &img_ip,QList<int> processlist)
   return im_op;
 }
 
-Mat CVFunctions::flip(const Mat &img_ip,int direction)
+cv::Mat CVFunctions::flip(const cv::Mat &img_ip,int direction)
 {
-     Mat img_op;
+     cv::Mat img_op;
      cv::flip(img_ip,img_op,direction);
      return img_op;
 }
 
-Mat CVFunctions::addSaltnPepperNoise(const Mat &img_ip)
+cv::Mat CVFunctions::addSaltnPepperNoise(const cv::Mat &img_ip)
 {
-    Mat img = img_ip.clone ();
+    cv::Mat img = img_ip.clone ();
     for (int k=0; k<no_of_salt_pepper_noises; k++)
     {
         int x = rand()%img.cols;
@@ -128,18 +130,18 @@ Mat CVFunctions::addSaltnPepperNoise(const Mat &img_ip)
         else if (img.channels() == 3) // color image
         {
 
-            img.at<Vec3b>(y,x)[0]= 255;
-            img.at<Vec3b>(y,x)[1]= 255;
-            img.at<Vec3b>(y,x)[2]= 255;
+            img.at<cv::Vec3b>(y,x)[0]= 255;
+            img.at<cv::Vec3b>(y,x)[1]= 255;
+            img.at<cv::Vec3b>(y,x)[2]= 255;
         }
     }
     return img;
 }
 
-Mat CVFunctions::addLogo(const Mat &img_ip, int pos)
+cv::Mat CVFunctions::addLogo(const cv::Mat &img_ip, int pos)
 {
-    Mat t_img = img_ip.clone();
-    Mat logo = cv::imread(logofile);
+    cv::Mat t_img = img_ip.clone();
+    cv::Mat logo = cv::imread(logofile);
 
      int r = logo.rows;
      int c = logo.cols;
@@ -152,16 +154,16 @@ Mat CVFunctions::addLogo(const Mat &img_ip, int pos)
      else if (pos == 3) { y = 0; x = t_img.cols-c;}
      else { x = t_img.cols-c;  y = t_img.rows-r; }
 
-    Mat imageROI = t_img(Rect(x,y,c,r));
+    cv::Mat imageROI = t_img(cv::Rect(x,y,c,r));
     logo.copyTo(imageROI,logo);
      }
     return t_img;
 
 }
 
-Mat CVFunctions::invert(const Mat &img_ip, int colorspace)
+cv::Mat CVFunctions::invert(const cv::Mat &img_ip, int colorspace)
 {
-    Mat t_img;
+    cv::Mat t_img;
      if(colorspace == INVERT_GRAY){
          if(img_ip.channels ()!= 1)
              cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY, 0 );
@@ -170,16 +172,16 @@ Mat CVFunctions::invert(const Mat &img_ip, int colorspace)
         t_img = 255 - t_img;}
      else{
          t_img = img_ip.clone();
-         t_img = Scalar(255,255,255);
+         t_img = cv::Scalar(255,255,255);
          t_img = t_img - img_ip;
      }
      return t_img;
 }
 
-Mat CVFunctions::calculateHistogram(const Mat &img_ip,int channel)
+cv::Mat CVFunctions::calculateHistogram(const cv::Mat &img_ip,int channel)
 {
-    Mat t_img;
-    MatND hist;
+    cv::Mat t_img;
+    cv::MatND hist;
     int r = 0;
     int g = 0;
     int b = 0;
@@ -193,66 +195,66 @@ Mat CVFunctions::calculateHistogram(const Mat &img_ip,int channel)
 
     if(img_ip.channels() == 1){
         t_img = img_ip.clone();
-         calcHist (&t_img,1,0,Mat(),hist,1,histSize,ranges);
+         calcHist (&t_img,1,0,cv::Mat(),hist,1,histSize,ranges);
     }
 
     else if(channel == BLUE_HIST){
         t_img = img_ip.clone();
         int channels[] = {0};
-        calcHist (&t_img,1,channels,Mat(),hist,1,histSize,ranges);
+        calcHist (&t_img,1,channels,cv::Mat(),hist,1,histSize,ranges);
         b = 255;
     }
 
     else if(channel == GREEN_HIST){
         t_img = img_ip.clone();
         int channels[] = {1};
-        calcHist (&t_img,1,channels,Mat(),hist,1,histSize,ranges);
+        calcHist (&t_img,1,channels,cv::Mat(),hist,1,histSize,ranges);
         g = 255;
     }
 
     else if(channel == RED_HIST){
         t_img = img_ip.clone();
         int channels[] = {2};
-        calcHist (&t_img,1,channels,Mat(),hist,1,histSize,ranges);
+        calcHist (&t_img,1,channels,cv::Mat(),hist,1,histSize,ranges);
         r = 255;
     }
 
     else{
         cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY, 0 );
-        calcHist (&t_img,1,0,Mat(),hist,1,histSize,ranges);
+        calcHist (&t_img,1,0,cv::Mat(),hist,1,histSize,ranges);
     }
 
     double maxVal=0;
     minMaxLoc(hist, 0, &maxVal, 0, 0);
 
-    Mat histImg = Mat(256, 256, CV_8UC3,Scalar::all(255));
+    cv::Mat histImg = cv::Mat(256, 256, CV_8UC3,cv::Scalar::all(255));
 
        for( int h = 0; h < 256; h++ )
            {
                float binVal = hist.at<float>(h);
                int intensity = cvRound(binVal*250/maxVal);
-               line( histImg, Point(h,256),Point(h,256-intensity),Scalar(b,g,r));
+               line( histImg, cv::Point(h,256),cv::Point(h,256-intensity),cv::Scalar(b,g,r));
            }
     return histImg;
 }
 
-Mat CVFunctions::calculateHistogram (const Mat &img_ip)
+cv::Mat CVFunctions::calculateHistogram (const cv::Mat &img_ip)
 {
-    namedWindow ("Red");
+    cv::namedWindow ("Red");
     imshow("Red",calculateHistogram (img_ip,RED_HIST));
-    namedWindow ("Green");
+    cv::namedWindow ("Green");
     imshow("Green",calculateHistogram (img_ip,GREEN_HIST));
-    namedWindow ("Blue");
+    cv::namedWindow ("Blue");
     imshow("Blue",calculateHistogram (img_ip,BLUE_HIST));
     return( calculateHistogram(img_ip,GRAY_HIST));
 }
 
-//Mat CVFunctions::drawHistogram(MatND hist)
+//cv::Mat CVFunctions::drawHistogram(MatND hist)
 //{
 //    double maxVal=0;
 //    minMaxLoc(hist, 0, &maxVal, 0, 0);
 
-//    Mat histImg = Mat::ones(256, 256, CV_8U)*255;
+//    cv::Mat histImg = cv::Mat::ones(256, 256, CV_8U)*255;
 
 //       for( int h = 0; h < 256; h++ )
 //           {
@@ -263,12 +265,12 @@ Mat CVFunctions::calculateHistogram (const Mat &img_ip)
 //                           Scalar::all(0));
 //           }
 
-Mat CVFunctions::equaliseHistogram(const Mat &img_ip)
+cv::Mat CVFunctions::equaliseHistogram(const cv::Mat &img_ip)
 {
 
-    Mat t_img;
+    cv::Mat t_img;
      if(img_ip.channels () != 1){
-         vector<Mat> temp;
+         vector<cv::Mat> temp;
          cvtColor(img_ip,t_img,cv::COLOR_BGR2HSV, 0 );
          split(t_img,temp);
          equalizeHist(temp[2], temp[2]);
@@ -281,19 +283,19 @@ Mat CVFunctions::equaliseHistogram(const Mat &img_ip)
        equalizeHist(t_img, t_img);
      }
    if(showintermediatewindows){
-       namedWindow ("Input Histogram");
-       imshow("Input Histogram",calculateHistogram (img_ip,GRAY_HIST));
-       namedWindow ("Output Histogram");
-       imshow("Output Histogram",calculateHistogram (t_img,GRAY_HIST));
+       cv::namedWindow ("Input Histogram");
+       cv::imshow("Input Histogram",calculateHistogram (img_ip,GRAY_HIST));
+       cv::namedWindow ("Output Histogram");
+       cv::imshow("Output Histogram",calculateHistogram (t_img,GRAY_HIST));
    }
 
        return t_img;
 }
 
- Mat CVFunctions::convertColorSpace(const Mat &img_ip,int convert )
+ cv::Mat CVFunctions::convertColorSpace(const cv::Mat &img_ip,int convert )
  {
-     Mat t_img;
-     vector<Mat> temp;
+     cv::Mat t_img;
+     vector<cv::Mat> temp;
    if(img_ip.channels () == 1)
        t_img = img_ip.clone();
    else{
@@ -372,9 +374,9 @@ Mat CVFunctions::equaliseHistogram(const Mat &img_ip)
      return t_img;
 }
 
- Mat CVFunctions::resizeImage (const Mat &img_ip)
+ cv::Mat CVFunctions::resizeImage (const cv::Mat &img_ip)
  {
-     Mat t_img = img_ip;
+     cv::Mat t_img = img_ip;
      double w = t_img.cols;
      double h = t_img.rows;
      if(!resizebypc){
@@ -386,62 +388,68 @@ Mat CVFunctions::equaliseHistogram(const Mat &img_ip)
          h = h*resizepc;
      }
 
-     resize(img_ip,t_img,Size(w,h),0,0,INTER_CUBIC);
+     resize(img_ip,t_img,cv::Size(w,h),0,0,cv::INTER_CUBIC);
      QString resfile = imfile;
-     resfile.insert(resfile.length ()-4,QString("_resized"));
-     cv::imwrite(resfile.toStdString (),t_img);
+     if(!resfile.isEmpty()){
+        resfile.insert(resfile.length ()-4,QString("_resized"));
+        cv::imwrite(resfile.toStdString (),t_img);
+     }
+     else {
+         std::cout<<"empty file nane.. not saved";
+     }
      return t_img;
  }
 
- Mat CVFunctions::erodeImage(const Mat &img_ip)
+ cv::Mat CVFunctions::erodeImage(const cv::Mat &img_ip)
  {
-     Mat t_img;
+     cv::Mat t_img;
 
      if(erodelem>=0 && erodelem<3){
-       Mat element = getStructuringElement( erodelem,Size( 2*erodesize + 1, 2*erodesize+1 ),
-                                            Point( erodesize, erodesize ));
-       erode(img_ip,t_img,element,Point(-1,-1),erodeiterno);
+       cv::Mat element = getStructuringElement( erodelem,cv::Size( 2*erodesize + 1, 2*erodesize+1 ),
+                                            cv::Point( erodesize, erodesize ));
+       erode(img_ip,t_img,element,cv::Point(-1,-1),erodeiterno);
      }
     else
-     erode(img_ip,t_img,Mat(),Point(-1,-1),erodeiterno);
+     erode(img_ip,t_img,cv::Mat(),cv::Point(-1,-1),erodeiterno);
       return t_img;
  }
 
- Mat CVFunctions::dilateImage(const Mat &img_ip)
+ cv::Mat CVFunctions::dilateImage(const cv::Mat &img_ip)
  {
-     Mat t_img;
+    cv::Mat t_img;
      if(dilatelem>=0 && dilatelem<3){
-       Mat element = getStructuringElement(dilatelem,Size( 2*dilatesize + 1, 2*dilatesize+1 ),
-                                            Point(dilatesize,dilatesize));
-       dilate(img_ip,t_img,element,Point(-1,-1),dilateiterno);
-     }
-     else
-      dilate(img_ip,t_img,Mat(),Point(-1,-1),dilateiterno);
+       cv::Mat element = getStructuringElement(dilatelem,cv::Size( 2*dilatesize + 1, 2*dilatesize+1 ),
+                                            cv::Point(dilatesize,dilatesize));
+       dilate(img_ip,t_img,element,cv::Point(-1,-1),dilateiterno);
+       }
+     else{
+      dilate(img_ip,t_img,cv::Mat(),cv::Point(-1,-1),dilateiterno);
+       }
       return t_img;
  }
 
-Mat CVFunctions::MorphologyTx(const Mat &img_ip,int id)
+cv::Mat CVFunctions::MorphologyTx(const cv::Mat &img_ip,int id)
 {
-   Mat t_img;
+   cv::Mat t_img;
    int operation = id - OPEN + 2;
     if(morphelem>=0 && morphelem<3){
-       Mat element = getStructuringElement( morphelem, Size( 2*morphsize + 1, 2*morphsize+1 ), Point( morphsize, morphsize ) );
+       cv::Mat element = getStructuringElement( morphelem, cv::Size( 2*morphsize + 1, 2*morphsize+1 ), cv::Point( morphsize, morphsize ) );
         morphologyEx(img_ip,t_img, operation, element );
     }
     else
-       morphologyEx(img_ip,t_img,operation,Mat(),Point(-1,-1));
+       morphologyEx(img_ip,t_img,operation,cv::Mat(),cv::Point(-1,-1));
     return t_img;
 }
 
-Mat CVFunctions::Filter(const Mat &img_ip,int id)
+cv::Mat CVFunctions::Filter(const cv::Mat &img_ip,int id)
 {
-    Mat t_img;
+    cv::Mat t_img;
     if(id == BLUR)
-        blur(img_ip,t_img,Size(mean_filter_size,mean_filter_size));
+        blur(img_ip,t_img,cv::Size(mean_filter_size,mean_filter_size));
     else if(id == MEDIAN)
             medianBlur(img_ip,t_img,median_filter_size);
     else if(id == GAUSSIAN)
-        GaussianBlur(img_ip,t_img,Size(gaussian_filter_size,gaussian_filter_size),sigmaX,sigmaY);
+        GaussianBlur(img_ip,t_img,cv::Size(gaussian_filter_size,gaussian_filter_size),sigmaX,sigmaY);
     else if(id == BILATERAL)
         bilateralFilter (img_ip,t_img,bilateralfilter_diam,sigmacolor,sigmaspace);
     else
@@ -450,20 +458,20 @@ Mat CVFunctions::Filter(const Mat &img_ip,int id)
     return t_img;
 }
 
- Mat CVFunctions::FilterCustom(const Mat & img_ip,int id)
+ cv::Mat CVFunctions::FilterCustom(const cv::Mat & img_ip,int id)
  {
-    Mat t_img;
-     Mat temp;
+    cv::Mat t_img;
+    cv::Mat temp;
     if(img_ip.channels () == 1){
         t_img = img_ip.clone();
         if(id==SHARPEN){
-            Mat masksharpen(3,3,CV_64F,Scalar(-1/9));
+            cv::Mat masksharpen(3,3,CV_64F,cv::Scalar(-1/9));
             masksharpen.at<double>(1,1)+=2;
-            filter2D(img_ip,t_img,-1,filtermask,Point(-1,1));
+            filter2D(img_ip,t_img,-1,filtermask,cv::Point(-1,1));
             t_img += img_ip;
         }
         else{
-            filter2D (img_ip,t_img,CV_16S,filtermask,Point(-1,1),offset);
+            filter2D (img_ip,t_img,CV_16S,filtermask,cv::Point(-1,1),offset);
             t_img.convertTo (t_img,CV_8U);
         }
     }
@@ -472,29 +480,30 @@ Mat CVFunctions::Filter(const Mat &img_ip,int id)
     else
     {
         cvtColor(img_ip,t_img,cv::COLOR_BGR2HSV, 0 );
-       vector<Mat> temp;
-        Mat t2;
+       vector<cv::Mat> temp;
+        cv::Mat t2;
         split(t_img,temp);
         if(id==SHARPEN){
-            Mat masksharpen(3,3,CV_64F,Scalar(-1/9));
+            cv::Mat masksharpen(3,3,CV_64F,cv::Scalar(-1/9));
             masksharpen.at<double>(1,1)+=2;
-            filter2D(temp[2],t2,-1,filtermask,Point(-1,1));
+            filter2D(temp[2],t2,-1,filtermask,cv::Point(-1,1));
             temp[2] += t2;
             merge(temp,t_img);
             cvtColor(t_img,t_img,cv::COLOR_HSV2BGR, 0 );
         }
         else {
-            filter2D (img_ip,t_img,CV_16S,filtermask,Point(-1,1),offset);
+            filter2D (img_ip,t_img,CV_16S,filtermask,cv::Point(-1,1),offset);
             t_img.convertTo (t_img,CV_8U);
         }
 }
     return t_img;
  }
- Mat CVFunctions:: edgeFilter(const Mat &img_ip, int id)
+
+ cv::Mat CVFunctions:: edgeFilter(const cv::Mat &img_ip, int id)
  {
-    Mat t_img;
-    Mat x_grad;
-    Mat y_grad;
+    cv::Mat t_img;
+    cv::Mat x_grad;
+    cv::Mat y_grad;
      if(id == SOBEL){
          if(sobeldir <=0){
             Sobel (img_ip,t_img,CV_16S,1,0,sobelkersize,sobelscale,sobeloffset);
@@ -526,14 +535,14 @@ Mat CVFunctions::Filter(const Mat &img_ip,int id)
      return t_img;
  }
 
-    Mat CVFunctions::normaliseImage(const Mat &img_ip)
+    cv::Mat CVFunctions::normaliseImage(const cv::Mat &img_ip)
     {
-        Mat t_img ;
+        cv::Mat t_img ;
         double min, max;
         if(img_ip.channels ()==1)
            minMaxLoc(img_ip,&min,&max);
         else{
-            Mat temp;
+            cv::Mat temp;
             cvtColor(img_ip,temp,cv::COLOR_BGR2GRAY, 0 );
              minMaxLoc(temp,&min,&max);
         }
@@ -541,9 +550,9 @@ Mat CVFunctions::Filter(const Mat &img_ip,int id)
      return t_img;
     }
 
-Mat CVFunctions::houghTransform(const Mat &img_ip,int id)
+cv::Mat CVFunctions::houghTransform(const cv::Mat &img_ip,int id)
 {
-    Mat t_img;
+    cv::Mat t_img;
     if(img_ip.channels () !=1)
         cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY);
     else
@@ -555,18 +564,18 @@ Mat CVFunctions::houghTransform(const Mat &img_ip,int id)
 
         if(probhoughline)
         {
-            vector<Vec4i> lines;
+            vector<cv::Vec4i> lines;
             HoughLinesP(t_img, lines, rho, theta, houghthres, houghminlinelength,houghminlinegap);
              t_img = ip_image.clone ();
          for( size_t i = 0; i < lines.size(); i++ )
                 {
-                  Vec4i l = lines[i];
-             line(t_img, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,255,255), 1, cv::LINE_AA);
+                  cv::Vec4i l = lines[i];
+             line(t_img, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,255,255), 1, cv::LINE_AA);
                 }
         }
         else
         {
-             vector<Vec2f> lines;
+             vector<cv::Vec2f> lines;
             HoughLines(t_img, lines, rho, theta, houghthres, 0, 0 );
              t_img = ip_image.clone ();
              int fac = (ip_image.rows>ip_image.cols ? ip_image.rows:ip_image.cols);
@@ -574,21 +583,21 @@ Mat CVFunctions::houghTransform(const Mat &img_ip,int id)
               for( size_t i = 0; i < lines.size(); i++ )
               {
                  float rho = lines[i][0], theta = lines[i][1];
-                 Point pt1, pt2;
+                 cv::Point pt1, pt2;
                  double a = cos(theta), b = sin(theta);
                  double x0 = a*rho, y0 = b*rho;
                  pt1.x = cvRound(x0 + fac*(-b));
                  pt1.y = cvRound(y0 + fac*(a));
                  pt2.x = cvRound(x0 - fac*(-b));
                  pt2.y = cvRound(y0 - fac*(a));
-                 line(t_img, pt1, pt2, Scalar(255,255,255), 1, cv::LINE_AA);
+                 line(t_img, pt1, pt2, cv::Scalar(255,255,255), 1, cv::LINE_AA);
               }
         }
 
 }
 
     else{
-         vector<Vec3f> circles;
+         vector<cv::Vec3f> circles;
          double distmin;
          if(hcmimdist <=1) distmin = img_ip.rows/10; else distmin = hcmimdist;
          HoughCircles(t_img, circles, cv::HOUGH_GRADIENT, dp, distmin, param1, param2, minradius, maxradius );
@@ -596,12 +605,12 @@ Mat CVFunctions::houghTransform(const Mat &img_ip,int id)
 
          for( size_t i = 0; i < circles.size(); i++ )
            {
-               Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+               cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
                int radius = cvRound(circles[i][2]);
                // circle center
-               circle(t_img, center, 3, Scalar(0,255,0), -1, 8, 0 );
+               circle(t_img, center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
                // circle outline
-               circle(t_img, center, radius, Scalar(255,255,255), 2, 8, 0 );
+               circle(t_img, center, radius, cv::Scalar(255,255,255), 2, 8, 0 );
             }
 
     }
@@ -609,71 +618,71 @@ Mat CVFunctions::houghTransform(const Mat &img_ip,int id)
     return t_img;
 }
 
-Mat CVFunctions::extractContours (const Mat &img_ip)
+cv::Mat CVFunctions::extractContours (const cv::Mat &img_ip)
 {
-    Mat t_img;
+    cv::Mat t_img;
     if(img_ip.channels () !=1)
         cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY);
     else
        t_img = img_ip.clone();
 
 
-      vector<vector<Point> > contours;
-      vector<Vec4i> hierarchy;
+      vector<vector<cv::Point> > contours;
+      vector<cv::Vec4i> hierarchy;
 
     /// Find contours
-      findContours(t_img, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, Point(0, 0) );
+      findContours(t_img, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
       /// Draw contours
-      RNG rng(12345);
+      cv::RNG rng(12345);
       t_img = ip_image.clone ();
 
-      for( int i = 0; i< contours.size(); i++ )
+      for(unsigned long i = 0; i < contours.size(); i++ )
          {
-          Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-          drawContours( t_img, contours, i, color, 2, 8, hierarchy, 0, Point() );
+          cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+          drawContours( t_img, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
          }
 
       return t_img;
 
 }
 
-Mat CVFunctions::ShapeDescriptors(const Mat &img_ip,int id)
+cv::Mat CVFunctions::ShapeDescriptors(const cv::Mat &img_ip,int id)
 {
 
-    Mat t_img;
+    cv::Mat t_img;
     if(img_ip.channels () !=1)
         cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY);
     else
        t_img = img_ip.clone();
 
 
-      vector<vector<Point> > contours;
-      vector<Vec4i> hierarchy;
+      vector<vector<cv::Point> > contours;
+      vector<cv::Vec4i> hierarchy;
 
 
       /// Find contours
-      findContours(t_img, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, Point(0, 0) );
+      findContours(t_img, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
       /// Approximate contours to polygons + get bounding rects and circles
-      vector<vector<Point> > contours_poly( contours.size() );
-      vector<Rect> boundRect( contours.size() );
-      vector<RotatedRect> minRect( contours.size() );
-      vector<RotatedRect> minEllipse( contours.size() );
-      vector<Point2f>center( contours.size() );
+      vector<vector<cv::Point> > contours_poly( contours.size() );
+      vector<cv::Rect> boundRect( contours.size() );
+      vector<cv::RotatedRect> minRect( contours.size() );
+      vector<cv::RotatedRect> minEllipse( contours.size() );
+      vector<cv::Point2f>center( contours.size() );
       vector<float>radius( contours.size() );
-       vector<vector<Point> >hull( contours.size() );
-        vector<Moments> mu(contours.size() );
-         vector<Point2f> mc( contours.size() );
+       vector<vector<cv::Point> >hull( contours.size() );
+        vector<cv::Moments> mu(contours.size() );
+         vector<cv::Point2f> mc( contours.size() );
 
-         RNG rng(12345);
+         cv::RNG rng(12345);
         t_img = ip_image.clone ();
-      for( int i = 0; i < contours.size(); i++ )
+      for( unsigned long i = 0; i < contours.size(); i++ )
          {
-          approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true );
-           Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+          approxPolyDP( cv::Mat(contours[i]), contours_poly[i], 3, true );
+           cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
           if(id == BOUNDINGBOX){
-            boundRect[i] = boundingRect( Mat(contours_poly[i]) );
+            boundRect[i] = boundingRect( cv::Mat(contours_poly[i]) );
             rectangle( t_img, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0 );
           }
           else if(id == MINCIRCLE){
@@ -682,47 +691,62 @@ Mat CVFunctions::ShapeDescriptors(const Mat &img_ip,int id)
            }
           else if(id == MINELLIPSE){
               if( contours[i].size() > 5 ){
-                        minEllipse[i] = fitEllipse( Mat(contours[i]) );
+                        minEllipse[i] = fitEllipse( cv::Mat(contours[i]) );
                          ellipse( t_img, minEllipse[i], color, 2, 8 );
               }
           }
           else if(id == RECTROT){
-                minRect[i] = minAreaRect( Mat(contours[i]) );
-                Point2f rect_points[4]; minRect[i].points( rect_points );
+                minRect[i] = minAreaRect( cv::Mat(contours[i]) );
+                cv::Point2f rect_points[4]; minRect[i].points( rect_points );
                        for( int j = 0; j < 4; j++ )
                           line( t_img, rect_points[j], rect_points[(j+1)%4], color, 2, 8 );
               }
           else if(id == CONVEXHULL){
-                  convexHull( Mat(contours[i]), hull[i], false );
-                   drawContours( t_img, hull, i, color, 2, 8, vector<Vec4i>(), 0, Point() );
+                  convexHull( cv::Mat(contours[i]), hull[i], false );
+                   drawContours( t_img, hull, i, color, 2, 8, vector<cv::Vec4i>(), 0, cv::Point() );
          }
           else{
                   mu[i] = moments( contours[i], false );
-                   mc[i] = Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );
-                   drawContours(t_img, contours, i, color, 2, 8, hierarchy, 0, Point() );
+                   mc[i] = cv::Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );
+                   drawContours(t_img, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
                    circle(t_img, mc[i], 2, color, -1, 8, 0 );
           }
       }
  return t_img;
 }
 
-Mat CVFunctions::thresholdImage(const Mat &img_ip)
+
+cv::Mat CVFunctions::thresholdImage(const cv::Mat &img_ip)
 {
-    Mat t_img;
+    cv::Mat t_img;
     if(img_ip.channels () !=1)
         cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY);
     else
        t_img = img_ip.clone();
 
 
-   threshold(t_img, t_img, thres, 255, THRESH_BINARY );
+   threshold(t_img, t_img, thres, 255, cv::THRESH_BINARY );
    return t_img;
 }
 
-Mat CVFunctions::calculateCorners(const Mat &img_ip)
+cv::Mat CVFunctions::OstuthresholdImage(const cv::Mat &img_ip)
+{
+    cv::Mat t_img;
+    if(img_ip.channels () !=1)
+        cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY);
+    else
+        t_img = img_ip.clone();
+
+
+    thres = threshold(t_img, t_img, 0, 255, cv::THRESH_OTSU);
+    std::cout<<"\n Ostu Threshold = 0"<<thres<<std::endl;
+    return t_img;
+}
+
+cv::Mat CVFunctions::calculateCorners(const cv::Mat &img_ip)
 {
 
-    Mat t_img;
+    cv::Mat t_img;
     if(img_ip.channels () !=1)
         cvtColor(img_ip,t_img,cv::COLOR_BGR2GRAY);
     else
@@ -730,14 +754,14 @@ Mat CVFunctions::calculateCorners(const Mat &img_ip)
 
 
 
-      Mat dst;
-        dst = Mat::zeros( img_ip.size(), CV_32FC1 );
+      cv::Mat dst;
+        dst = cv::Mat::zeros( img_ip.size(), CV_32FC1 );
 
 
 
           /// Detecting corners
-          cornerHarris( t_img, dst, harrisblockSize, harrisapertureSize,harrisk, BORDER_DEFAULT );
-          normalize( dst, dst, 0, 255, NORM_MINMAX, CV_32FC1, Mat() );
+          cornerHarris( t_img, dst, harrisblockSize, harrisapertureSize,harrisk, cv::BORDER_DEFAULT );
+          normalize( dst, dst, 0, 255, cv::NORM_MINMAX, CV_32FC1, cv::Mat() );
             t_img = ip_image.clone ();
           /// Normalizing
           if(!nonmaximalsupression) {
@@ -748,17 +772,17 @@ Mat CVFunctions::calculateCorners(const Mat &img_ip)
                   {
                     if( (int) dst.at<float>(j,i) > harristhreshold )
                       {
-                       circle( t_img, Point( i, j ), 5,  Scalar(255,0,0), 2, 8, 0 );
+                       circle( t_img, cv::Point( i, j ), 5,  cv::Scalar(255,0,0), 2, 8, 0 );
                       }
                   }
              }
           }
           else{
-              Mat temp; // temporary image
-              Mat maximg;
+              cv::Mat temp; // temporary image
+              cv::Mat maximg;
               dilate(dst,temp,cv::Mat());
               cv::compare(dst,temp,maximg,cv::CMP_EQ);
-              threshold(dst,temp,harristhreshold,255,THRESH_BINARY);
+              threshold(dst,temp,harristhreshold,255,cv::THRESH_BINARY);
               temp.convertTo(dst,CV_8U);
               maximg.convertTo (temp,CV_8U);
               bitwise_and(dst,temp,dst);
@@ -767,7 +791,7 @@ Mat CVFunctions::calculateCorners(const Mat &img_ip)
                       {
                         if(dst.at<uchar>(j,i) )
                           {
-                           circle( t_img, Point( i, j ), 5,  Scalar(255,0,0), 2, 8, 0 );
+                           circle( t_img, cv::Point( i, j ), 5,  cv::Scalar(255,0,0), 2, 8, 0 );
                           }
                       }
                  }
@@ -779,18 +803,18 @@ Mat CVFunctions::calculateCorners(const Mat &img_ip)
       return t_img;
 }
 
-Mat CVFunctions::getFASTfeatures (const Mat &img_ip)
+cv::Mat CVFunctions::getFASTfeatures (const cv::Mat &img_ip)
 {
-    std::vector<KeyPoint> keypoints;
-    Mat t_img = ip_image.clone();
+    std::vector<cv::KeyPoint> keypoints;
+    cv::Mat t_img = ip_image.clone();
     // Construction of the Fast feature detector object
 
     cv::FAST(img_ip,keypoints,fastthreshold);
-    drawKeypoints(t_img,keypoints,t_img, Scalar(255,255,255), DrawMatchesFlags::DRAW_OVER_OUTIMG);
+    drawKeypoints(t_img,keypoints,t_img, cv::Scalar(255,255,255), cv::DrawMatchesFlags::DRAW_OVER_OUTIMG);
      return t_img;
 }
 
-Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
+cv::Mat CVFunctions::getSURFfeatures(const cv::Mat &img_ip)
 {
     // vector of keypoints
     std::vector<cv::KeyPoint> keypoints;
@@ -799,27 +823,27 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
 
     // Detect the SURF features
      detector->detect(img_ip,keypoints);
-    Mat t_img = ip_image.clone();
+    cv::Mat t_img = ip_image.clone();
     if(!keypoints.empty ())
-    drawKeypoints(t_img,keypoints,t_img,Scalar(255,255,255),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); //flag
+    drawKeypoints(t_img,keypoints,t_img,cv::Scalar(255,255,255),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); //flag
     return t_img;
 }
 
- Mat CVFunctions::getSIFTfeatures(const Mat &img_ip)
+ cv::Mat CVFunctions::getSIFTfeatures(const cv::Mat &img_ip)
  {
     std::vector<cv::KeyPoint> keypoints;
     cv::Ptr<cv::SIFT> detector = cv::SIFT::create();
     detector->detect(img_ip,keypoints);
-    Mat t_img = ip_image.clone();
-    drawKeypoints(t_img,keypoints,t_img,Scalar(255,255,255),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); //flag
+    cv::Mat t_img = ip_image.clone();
+    drawKeypoints(t_img,keypoints,t_img,cv::Scalar(255,255,255),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); //flag
     return t_img;
  }
 
- Mat CVFunctions::findMatchesSURF(const Mat &img_ip)
+ cv::Mat CVFunctions::findMatchesSURF(const cv::Mat &img_ip)
  {
      cv::Ptr<cv::ORB> detector = cv::ORB::create( hessianthreshold );
 
-     std::vector<KeyPoint> keypoints_1, keypoints_2;
+     std::vector<cv::KeyPoint> keypoints_1, keypoints_2;
 
      detector->detect( img_ip, keypoints_1 );
      detector->detect( ip_image2, keypoints_2 );
@@ -827,14 +851,14 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
        //-- Step 2: Calculate descriptors (feature vectors)
 
 
-       Mat descriptors_1, descriptors_2;
+       cv::Mat descriptors_1, descriptors_2;
 
      detector->compute( img_ip, keypoints_1, descriptors_1 );
      detector->compute( ip_image2, keypoints_2, descriptors_2 );
 
        //-- Step 3: Matching descriptor vectors with a brute force matcher
      cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::BRUTEFORCE);
-       std::vector< DMatch > matches;
+       std::vector<cv::DMatch> matches;
        matcher->match( descriptors_1, descriptors_2, matches );
        if(matchesno >0 && matchesno<matches.size ()){
            std::nth_element(matches.begin(), // initial position
@@ -846,30 +870,30 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
 
 
        //-- Draw matches
-       Mat t_img;
+       cv::Mat t_img;
        drawMatches( ip_image, keypoints_1, ip_image2, keypoints_2, matches, t_img );
        return t_img;
 
  }
 
- Mat CVFunctions::findMatchesSIFT(const Mat &img_ip)
+ cv::Mat CVFunctions::findMatchesSIFT(const cv::Mat &img_ip)
  {
      cv::Ptr<cv::SIFT> detector = cv::SIFT::create();
-     std::vector<KeyPoint> keypoints_1, keypoints_2;
+     std::vector<cv::KeyPoint> keypoints_1, keypoints_2;
 
      detector->detect( img_ip, keypoints_1 );
      detector->detect( ip_image2, keypoints_2 );
 
        //-- Step 2: Calculate descriptors (feature vectors)
 
-       Mat descriptors_1, descriptors_2;
+       cv::Mat descriptors_1, descriptors_2;
 
      detector->compute( img_ip, keypoints_1, descriptors_1 );
      detector->compute( ip_image2, keypoints_2, descriptors_2 );
 
        //-- Step 3: Matching descriptor vectors with a brute force matcher
      cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::BRUTEFORCE);
-    std::vector< DMatch > matches;
+    std::vector<cv::DMatch> matches;
      matcher->match( descriptors_1, descriptors_2, matches );
 
        if(matchesno >0 && matchesno<matches.size ()){
@@ -881,37 +905,37 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
        }
 
        //-- Draw matches
-       Mat t_img;
+       cv::Mat t_img;
        drawMatches( ip_image, keypoints_1, ip_image2, keypoints_2, matches, t_img );
        return t_img;
 
  }
 
- Mat CVFunctions::calcFundamentalmatrix(const Mat &img_ip,int id)
+ cv::Mat CVFunctions::calcFundamentalmatrix(int id)
  {
          RobustMatcher rmatcher;
          rmatcher.setConfidenceLevel(0.98);
          rmatcher.setMinDistanceToEpipolar(1.0);
          rmatcher.setRatio(0.65f);
-         Ptr<Feature2D> pfd= cv::ORB::create();
+         cv::Ptr<cv::Feature2D> pfd= cv::ORB::create();
          rmatcher.setFeatureDetector(pfd);
 
          // Match the two images
-         std::vector<DMatch> matches;
-         std::vector<KeyPoint> keypoints1, keypoints2;
+         std::vector<cv::DMatch> matches;
+         std::vector<cv::KeyPoint> keypoints1, keypoints2;
          fundemental= rmatcher.match(ip_image,ip_image2,matches, keypoints1, keypoints2,id);
          cout<<fundemental<<endl;
          // draw the matches
      if(showintermediatewindows){
-         Mat imageMatches;
-         drawMatches(ip_image,keypoints1,ip_image2,keypoints2,matches,imageMatches,Scalar(255,255,255));
-         namedWindow("Matches",WINDOW_AUTOSIZE);
+         cv::Mat imageMatches;
+         drawMatches(ip_image,keypoints1,ip_image2,keypoints2,matches,imageMatches,cv::Scalar(255,255,255));
+         namedWindow("Matches",cv::WINDOW_AUTOSIZE);
          imshow("Matches",imageMatches);
       }
          // Convert keypoints into Point2f
          std::vector<cv::Point2f> points1, points2;
-         Mat image1 = ip_image.clone();
-         Mat image2 = ip_image2.clone();
+         cv::Mat image1 = ip_image.clone();
+         cv::Mat image2 = ip_image2.clone();
          for (std::vector<cv::DMatch>::const_iterator it= matches.begin();
                   it!= matches.end(); ++it) {
 
@@ -929,52 +953,52 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
 
          // Draw the epipolar lines
          std::vector<cv::Vec3f> lines1;
-         computeCorrespondEpilines(Mat(points1),1,fundemental,lines1);
+         computeCorrespondEpilines(cv::Mat(points1),1,fundemental,lines1);
 
          for (vector<cv::Vec3f>::const_iterator it= lines1.begin();
               it!=lines1.end(); ++it) {
 
-              line(image2,cv::Point(0,-(*it)[2]/(*it)[1]),Point(image2.cols,-((*it)[2]+(*it)[0]*image2.cols)/(*it)[1]),Scalar(255,255,255));
+              line(image2,cv::Point(0,-(*it)[2]/(*it)[1]),cv::Point(image2.cols,-((*it)[2]+(*it)[0]*image2.cols)/(*it)[1]),cv::Scalar(255,255,255));
          }
 
          std::vector<cv::Vec3f> lines2;
-         computeCorrespondEpilines(Mat(points2),2,fundemental,lines2);
+         computeCorrespondEpilines(cv::Mat(points2),2,fundemental,lines2);
 
          for (vector<cv::Vec3f>::const_iterator it= lines2.begin();
           it!=lines2.end(); ++it) {
 
-          line(image1,Point(0,-(*it)[2]/(*it)[1]),Point(image1.cols,-((*it)[2]+(*it)[0]*image1.cols)/(*it)[1]),Scalar(255,255,255));
+          line(image1,cv::Point(0,-(*it)[2]/(*it)[1]),cv::Point(image1.cols,-((*it)[2]+(*it)[0]*image1.cols)/(*it)[1]),cv::Scalar(255,255,255));
          }
 
          ip_pp  = image1.clone();
     return image2;
  }
 
- Mat CVFunctions::calculateHomography(const Mat &img_ip)
+ cv::Mat CVFunctions::calculateHomography()
  {
      //-- Step 1: Detect the keypoints using SURF Detector
        int minHessian = 400;
      cv::Ptr<cv::ORB> detector = cv::ORB::create( minHessian );
 
-       std::vector<KeyPoint> keypoints_object, keypoints_scene;
+       std::vector<cv::KeyPoint> keypoints_object, keypoints_scene;
 
-       Mat img_object = ip_image.clone();
-       Mat img_scene = ip_image2.clone();
+       cv::Mat img_object = ip_image.clone();
+       cv::Mat img_scene = ip_image2.clone();
 
        detector->detect( img_object, keypoints_object );
        detector->detect( img_scene, keypoints_scene );
 
        //-- Step 2: Calculate descriptors (feature vectors)
 
-       Mat descriptors_object, descriptors_scene;
+       cv::Mat descriptors_object, descriptors_scene;
 
        detector->compute( img_object, keypoints_object, descriptors_object );
        detector->compute( img_scene, keypoints_scene, descriptors_scene );
 
        //-- Step 3: Matching descriptor vectors using FLANN matcher
 
-       FlannBasedMatcher matchers;
-       std::vector< DMatch > matches;
+       cv::FlannBasedMatcher matchers;
+       std::vector<cv::DMatch> matches;
        matchers.match( descriptors_object, descriptors_scene, matches );
 
        double max_dist = 0; double min_dist = 100;
@@ -990,23 +1014,23 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
        printf("-- Min dist : %f \n", min_dist );
 
        //-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
-       std::vector< DMatch > good_matches;
+       std::vector<cv::DMatch> good_matches;
 
        for( int i = 0; i < descriptors_object.rows; i++ )
        { if( matches[i].distance < 3*min_dist )
           { good_matches.push_back( matches[i]); }
        }
 
-       Mat img_matches;
+       cv::Mat img_matches;
        drawMatches( img_object, keypoints_object, img_scene, keypoints_scene,
-                    good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-                    vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+                    good_matches, img_matches, cv::Scalar::all(-1), cv::Scalar::all(-1),
+                    vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
        //-- Localize the object
-       std::vector<Point2f> obj;
-       std::vector<Point2f> scene;
+       std::vector<cv::Point2f> obj;
+       std::vector<cv::Point2f> scene;
 
-       for( int i = 0; i < good_matches.size(); i++ )
+       for(unsigned long i = 0; i < good_matches.size(); i++ )
        {
          //-- Get the keypoints from the good matches
          obj.push_back( keypoints_object[ good_matches[i].queryIdx ].pt );
@@ -1017,20 +1041,20 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
         cout<<homography<<endl;
 
        //-- Get the corners from the image_1 ( the object to be "detected" )
-       std::vector<Point2f> obj_corners(4);
+       std::vector<cv::Point2f> obj_corners(4);
         obj_corners[0] = cv::Point(0,0); obj_corners[1] = cv::Point( img_object.cols, 0 );
         obj_corners[2] = cv::Point( img_object.cols, img_object.rows ); obj_corners[3] = cv::Point( 0, img_object.rows );
-       std::vector<Point2f> scene_corners(4);
+       std::vector<cv::Point2f> scene_corners(4);
 
        perspectiveTransform( obj_corners, scene_corners, homography);
 
        //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-       line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
-       line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-       line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-       line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+       line( img_matches, scene_corners[0] + cv::Point2f( img_object.cols, 0), scene_corners[1] + cv::Point2f( img_object.cols, 0), cv::Scalar(0, 255, 0), 4 );
+       line( img_matches, scene_corners[1] + cv::Point2f( img_object.cols, 0), scene_corners[2] + cv::Point2f( img_object.cols, 0), cv::Scalar( 0, 255, 0), 4 );
+       line( img_matches, scene_corners[2] + cv::Point2f( img_object.cols, 0), scene_corners[3] + cv::Point2f( img_object.cols, 0), cv::Scalar( 0, 255, 0), 4 );
+       line( img_matches, scene_corners[3] + cv::Point2f( img_object.cols, 0), scene_corners[0] + cv::Point2f( img_object.cols, 0), cv::Scalar( 0, 255, 0), 4 );
 
-       Mat result;
+       cv::Mat result;
        cv::warpPerspective(img_object, // input image
                                result, // output image
                                homography, // homography
@@ -1045,7 +1069,7 @@ Mat CVFunctions::getSURFfeatures(const Mat &img_ip)
 
  }
 
-Mat CVFunctions::calibrateCamera(const Mat &img_ip)
+cv::Mat CVFunctions::calibrateCamera()
 {
 
 
@@ -1104,8 +1128,8 @@ Mat CVFunctions::calibrateCamera(const Mat &img_ip)
 
        if(showintermediatewindows)
        {
-              namedWindow("Corners on Chessboard",cv::WINDOW_AUTOSIZE );
-            destroyWindow ("Corners on Chessboard");
+            cv::namedWindow("Corners on Chessboard",cv::WINDOW_AUTOSIZE );
+            cv::destroyWindow ("Corners on Chessboard");
        }
     }
 
@@ -1113,11 +1137,11 @@ Mat CVFunctions::calibrateCamera(const Mat &img_ip)
     return  image;
 }
 
-Mat CVFunctions::undistortImage(const Mat &img_ip)
+cv::Mat CVFunctions::undistortImage(const cv::Mat &img_ip)
 {
     // Create calibrator object
     CameraCalibrator cameraCalibrator(cameraMatrix,distCoeffs);
-    Mat uImage= cameraCalibrator.remapimage(img_ip);
+    cv::Mat uImage= cameraCalibrator.remapimage(img_ip);
     return uImage;
 
 }

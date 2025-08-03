@@ -41,7 +41,7 @@ class RobustMatcher {
 
   public:
 
-      RobustMatcher() : ratio(0.65f), refineF(false), confidence(0.99), distance(3.0) {
+      RobustMatcher() : ratio(0.65f), refineF(false), distance(3.0), confidence(0.99) {
 
 		  // SURF is the default feature
           detector= cv::ORB::create();
@@ -144,13 +144,13 @@ class RobustMatcher {
 
 	  // Identify good matches using RANSAC
 	  // Return fundemental matrix
-	  cv::Mat ransacTest(const std::vector<cv::DMatch>& matches,
+      cv::Mat ransacTest(const std::vector<cv::DMatch>& matches,
 		                 const std::vector<cv::KeyPoint>& keypoints1, 
 						 const std::vector<cv::KeyPoint>& keypoints2,
                          std::vector<cv::DMatch>& outMatches,int type) {
           int method;
 
-          if(type = FUND7P) {refineF = true; method = cv::FM_7POINT;}
+          if(type == FUND7P) {refineF = true; method = cv::FM_7POINT;}
           else if(type == FUND8P) {refineF = true; method = cv::FM_8POINT;}
           else refineF = false;
 
@@ -171,8 +171,8 @@ class RobustMatcher {
 
 		// Compute F matrix using RANSAC
 		std::vector<uchar> inliers(points1.size(),0);
-		cv::Mat fundemental= cv::findFundamentalMat(
-			cv::Mat(points1),cv::Mat(points2), // matching points
+        cv::Mat fundemental= cv::findFundamentalMat(
+            cv::Mat(points1),cv::Mat(points2), // matching points
             inliers,      // match status (inlier ou outlier)
             cv::FM_RANSAC, // RANSAC method
 		    distance,     // distance to epipolar line
@@ -214,7 +214,7 @@ class RobustMatcher {
 
 			// Compute 8-point F from all accepted matches
 			fundemental= cv::findFundamentalMat(
-				cv::Mat(points1),cv::Mat(points2), // matching points
+                cv::Mat(points1),cv::Mat(points2), // matching points
                 method); // 8-point method
 		}
 
@@ -223,7 +223,7 @@ class RobustMatcher {
 
 	  // Match feature points using symmetry test and RANSAC
 	  // returns fundemental matrix
-	  cv::Mat match(cv::Mat& image1, cv::Mat& image2, // input images 
+      cv::Mat match(cv::Mat& image1, cv::Mat& image2, // input images
 		  std::vector<cv::DMatch>& matches, // output matches and keypoints
           std::vector<cv::KeyPoint>& keypoints1, std::vector<cv::KeyPoint>& keypoints2,int id = FUND8P) {
 
@@ -235,7 +235,7 @@ class RobustMatcher {
 		std::cout << "Number of SURF points (2): " << keypoints2.size() << std::endl;
 
 		// 1b. Extraction of the SURF descriptors
-		cv::Mat descriptors1, descriptors2;
+        cv::Mat descriptors1, descriptors2;
         detector->compute(image1,keypoints1,descriptors1);
         detector->compute(image2,keypoints2,descriptors2);
 
