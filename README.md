@@ -9,13 +9,14 @@ $ sudo apt install libopencv-dev
 ### Install Qt6
 $ sudo apt install qt6-base-dev 
 
+### Install QT development and qtcreator (optional)
 #qt6-tools-dev qtcreator
 
 # Build
 ### Qmake
 Open vp_hw using Qtcreator select debug or release folder and build
 
-### CMake
+### CMake (recommended for wsl)
 $ cd release or cd debug
 $ cmake ..
 $ build
