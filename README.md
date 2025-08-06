@@ -4,10 +4,12 @@ $ sudo apt update
 $ sudo apt install build-essential
 
 ### Install OpenCV
-$ sudo apt install opencv-dev
+$ sudo apt install libopencv-dev
 
 ### Install Qt6
-$ sudo apt install qt6-base-dev qt6-tools-dev qtcreator
+$ sudo apt install qt6-base-dev 
+
+#qt6-tools-dev qtcreator
 
 # Build
 ### Qmake
