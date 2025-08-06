@@ -10,7 +10,7 @@ $ sudo apt install libopencv-dev
 $ sudo apt install qt6-base-dev 
 
 ### Install QT development and qtcreator (optional)
-#qt6-tools-dev qtcreator
+$ sudo apt install qt6-tools-dev qtcreator
 
 # Build
 ### Qmake
